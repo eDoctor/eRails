@@ -1,12 +1,13 @@
 # 请按字母顺序排列
 # host前面请添加：http://，后面不加/
+
 defaults: &defaults
   site_name: 
 
 development:
   <<: *defaults
-  js_host: 
   host: 
+  js_host: 
 
 production:
   <<: *defaults

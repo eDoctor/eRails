@@ -1,0 +1,14 @@
+.DS_Store
+.SVN
+.bundle
+*~
+*.lock
+*.swp
+/config/database.yml
+/config/config.yml
+/config/services.yml
+/public/system
+/public/uploads
+/log
+/tmp
+.rvmrc
