@@ -1,0 +1,14 @@
+defaults: &defaults
+  adapter: mysql2
+  encoding: utf8
+  username: root
+  password: '123456'
+  host: localhost
+
+development:
+  <<: *defaults
+  database: xxx_dev
+
+production:
+  <<: *defaults
+  database: xxx_prod
