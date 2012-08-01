@@ -19,9 +19,10 @@ echo "gem 'e_rails', :git => 'git://github.com/eDoctor/eRails.git'" >> Gemfile
 ## Step 3
 
 ```ruby
+bundle install
 rails g e_rails:install
 ```
 
 ## Step 4
 
-#### 提交SVN时，勿忘Ignore根目录下的 *log* 和 *tmp* !!
+#### 提交SVN时，勿忘 Ignore 项目根目录下的 *log* 和 *tmp* !!
