@@ -41,20 +41,39 @@ module ERails
     # 切换 development 和 production 两种环境下的 js 引用路径
     def local2web(source)
       return javascript_path source if onDev
-      paths = source.split('/')
-      File.join(APP_CONFIG['js_host'], paths[0], release_version, paths[1..-1])
+      # paths = source.split('/')
+      # File.join(APP_CONFIG['js_host'], paths[0], release_version, paths[1..-1])
+      File.join(APP_CONFIG['js_host'], source)
     end
 
 
-    def seajs_path(v="1.1.8")
+    def seajs_path(v="1.2.0")
       path = "lib/seajs/#{v}/sea.js"
       return path if onDev
       File.join(APP_CONFIG['js_host'], path)
     end
 
-
     def seajs_include_tag(source)
       javascript_include_tag seajs_path, "data-main" => local2web(source)
+    end
+
+
+    def seajs_and_jquery(*args)
+      v = args.extract_options!
+      files = [
+        "seajs/#{v[:seajs] || "1.2.0"}/sea.js",
+        "seajs-alias.js",
+        "jquery/#{v[:jquery] || "1.7.2"}/jquery.js"
+      ]
+
+      if onDev
+        files = files.map { |file| "lib/" + file }
+        return javascript_include_tag(files[0], :id => "seajsnode"), javascript_include_tag(files[1], files[2])
+      else
+        src = File.join(APP_CONFIG['js_host'], "lib", "??#{files.join(',')}")
+        ts = "?r=" + release_version
+        return javascript_include_tag src + ts, :id => "seajsnode", :type => nil
+      end
     end
 
 
