@@ -16,7 +16,7 @@ module ERails
         copy_file 'database.yml.example', 'config/database.yml.example'
         
         gsub_file 'config/environments/production.rb', /config.assets.compile = false/, 'config.assets.compile = true'
-        insert_into_file 'config/environments/production.rb', "\n  config.assets.precompile = [/[^_]\.css$/]\n", :after => /search.js )\n/
+        insert_into_file 'config/environments/production.rb', "\n  config.assets.precompile = [/[^_]\.css$/]\n", :after => /\( search.js \)\n/
        
         insert_into_file 'config/environments/development.rb', "\n  config.sass.line_comments = false\n", :after => /debug = true\n/
 
