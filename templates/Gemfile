@@ -20,4 +20,4 @@ end
 ## Deploy with Capistrano
 gem 'capistrano'
 
-gem 'e_rails', :path => 'eRails'
+gem 'e_rails', :git => 'git@github.com:eDoctor/eRails.git'
