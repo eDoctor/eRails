@@ -7,21 +7,25 @@ module ERails
 
       def copy_config_file
         copy_file 'Gemfile', 'Gemfile'
+        copy_file 'gitignore', '.gitignore'
         
-        copy_file 'config/app_config.rb', 'config/initializers/app_config.rb'
-        copy_file 'config/slim.rb', 'config/initializers/slim.rb'
+        copy_file 'app_config.rb', 'config/initializers/app_config.rb'
+        copy_file 'slim.rb', 'config/initializers/slim.rb'
         
-        copy_file 'config/config.yml.example', 'config/config.yml.example'
-        copy_file 'config/config.yml.example', 'config/config.yml'
-        copy_file 'config/database.yml.example', 'config/database.yml.example'
-        copy_file 'config/database.yml.example', 'config/database.yml'
+        copy_file 'config.yml.example', 'config/config.yml.example'
+        copy_file 'database.yml.example', 'config/database.yml.example'
         
-        gsub_file 'config/environments/production.rb', /config.assets.compile = false/, 'config/assets.compile = true'
+        gsub_file 'config/environments/production.rb', /config.assets.compile = false/, 'config.assets.compile = true'
+        insert_into_file 'config/environments/production.rb', "\n  config.assets.precompile = [/[^_]\.css$/]\n", :after => /\( search.js \)\n/
        
-        insert_into_file 'config/environments/production.rb', "  config.sass.line_comments = false\n", :after => /configure do\n/
-        insert_into_file 'config/environments/production.rb', "  config.assets.precompile = [/[^_]\.css$/]\n", :after => /configure do\n/
+        insert_into_file 'config/environments/development.rb', "\n  config.sass.line_comments = false\n", :after => /debug = true\n/
 
-        run 'bundle install'
+        run 'bundle install && bundle exec compass init rails'
+        run 'rm -r app/assets/images/*'
+        run 'rm -r app/assets/javascripts/*'
+        run 'rm -r app/assets/stylesheets/*'
+        run 'rm -r config/database.yml'
+        run 'rm -r public/index.html'
       end
     end
   end

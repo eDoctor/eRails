@@ -1,3 +1,0 @@
-= ERails
-
-    rails g e_rails:install
