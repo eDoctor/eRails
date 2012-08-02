@@ -2,6 +2,7 @@ source 'http://ruby.taobao.org'
 
 gem 'rails', '~> 3.2.6'
 gem 'slim-rails'
+gem 'e_rails', :git => 'git://github.com/eDoctor/eRails.git'
 
 ## Sort by letter
 gem 'json'
