@@ -1,5 +1,13 @@
+# encoding: utf-8
+require 'active_support/concern'
 module ERails
   module CustomMethods
+    extend ActiveSupport::Concern
+    
+    included do
+      helper_method :geturl
+    end
+
     ## 处理当前页URL的参数并返回新的URL ##
     def geturl(*args)
       opts = args.extract_options!

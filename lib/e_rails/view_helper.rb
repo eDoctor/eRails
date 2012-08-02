@@ -1,4 +1,4 @@
-require 'e_rails/custom_methods'
+# encoding: utf-8
 module ERails
   module ViewHelper
     # 格式化日期时间
