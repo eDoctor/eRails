@@ -50,7 +50,7 @@ rails g e_rails:install
 # <script>seajs.use(['/assets/{{ app_name }}/src/index'])</script>
 
 == seajs_use 'index', '#jquery/1.7.2/jquery'
-# <script>seajs.use(['/assets/{{ app_name }}/src/index', '/assets/modules/jquery/1.7.2/jquery'])</script>
+# <script>seajs.use(['/assets/{{ app_name }}/src/index', '#jquery/1.7.2/jquery'])</script>
 ```
 
 ## local2web(*args)
