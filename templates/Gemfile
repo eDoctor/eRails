@@ -4,20 +4,17 @@ gem 'rails', '~> 3.2.6'
 gem 'slim-rails'
 gem 'e_rails', :git => 'git://github.com/eDoctor/eRails.git'
 
-## Sort by letter
-gem 'json'
-gem 'mysql2'
-# gem 'rails_emoji', '~> 1.4'
-# gem 'rails_kindeditor', '~> 0.3.0'
-
-## Gems used only for assets and not required in production environments by default.
 group :assets do
   gem 'compass-rails'
-  # gem 'oily_png'      # 为Compass加速PNG拼接
+  # gem 'oily_png' # 为 Compass 加速图片拼接
   gem 'sass-rails'
-  gem 'therubyracer'  # 为Ruby嵌入V8引擎
-  gem 'uglifier'      # 压缩
 end
 
-## Deploy with Capistrano
-gem 'capistrano'
+########## ☟ Sort by letter ☟ ##########
+
+# gem 'capistrano' # Deploy
+# gem 'json'
+# gem 'mongoid', '~> 3.0.0'
+# gem 'mysql2'
+# gem 'rails_emoji', '~> 1.5'
+# gem 'rails_kindeditor', '~> 0.3.0'

@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version  = ERails::VERSION
   s.files    = Dir["{lib,templates}/**/*"] + %w{README.md}
   s.homepage = "https://github.com/eDoctor/eRails"
-  s.authors  = ["mrichie"]
+  s.authors  = ["mrichie", "Jay-Jay"]
   s.summary  = "after: rails new"
 
   s.add_dependency "rails", "~> 3.2.6"

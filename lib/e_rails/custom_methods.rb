@@ -5,10 +5,35 @@ module ERails
     extend ActiveSupport::Concern
     
     included do
-      helper_method :geturl
+      helper_method :date_time, :geturl
     end
 
-    ## 处理当前页URL的参数并返回新的URL ##
+    ## 格式化日期时间 ##
+    def date_time(time)
+      time = Time.parse(time).localtime
+      now = DateTime.now
+      format = "%Y年%m月%d日 %H:%M"
+      arr = ["今天", "明天", "后天", "前天", "昨天"]
+      s = (time - now).to_i.seconds.abs # 秒数差
+      d = (time.to_date - now.to_date).to_i # 天数差
+
+      if s <= 1.minute
+        return "刚刚" if time < now
+        return (s < 1 ? 1 : s).to_s << "秒后"
+      elsif s <= 1.hour
+        return (s/60).to_i.to_s << "分钟" << (time < now ? "前" : "后")
+      elsif d.abs <= 2
+        return arr[d] << time.strftime(" %H:%M")
+      elsif time.year == now.year
+        return time.strftime(format[5..-1])
+      else
+        return time.strftime(format)
+      end
+    rescue
+      nil
+    end
+
+    ## 处理当前页 URI 的参数并返回新的 URI ##
     def geturl(*args)
       opts = args.extract_options!
       url, params = request.fullpath.split('?')
