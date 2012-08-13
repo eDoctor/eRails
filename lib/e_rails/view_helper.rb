@@ -19,8 +19,8 @@ module ERails
         return javascript_include_tag(files[0], :id => id) + javascript_include_tag(files[1], files[2])
       else
         path = File.join(APP_CONFIG['js_host'], 'modules', "??#{files.join(',')}")
-        ts = '?' + RELEASE_VERSION + '.js'
-        return javascript_include_tag path + ts, :id => id, :type => nil
+        # ts = '?' + RELEASE_VERSION + '.js'
+        return javascript_include_tag path, :id => id, :type => nil
       end
     end
 
