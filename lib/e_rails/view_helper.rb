@@ -16,7 +16,7 @@ module ERails
 
       if onDev
         files = files.map { |file| 'modules/' + file }
-        return javascript_include_tag(files[0], :id => id), javascript_include_tag(files[1], files[2])
+        return javascript_include_tag(files[0], :id => id) + javascript_include_tag(files[1], files[2])
       else
         path = File.join(APP_CONFIG['js_host'], 'modules', "??#{files.join(',')}")
         ts = '?' + RELEASE_VERSION + '.js'
