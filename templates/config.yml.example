@@ -3,7 +3,7 @@
 
 defaults: &defaults
   site_name: 
-  js_dir: undefined  # 存放本项目JS的目录
+  assets_dir: undefined  # 本项目静态资源目录名
 
 development:
   <<: *defaults
