@@ -11,7 +11,6 @@ module ERails
         
         copy_file 'app_config.rb', 'config/initializers/app_config.rb'
         copy_file 'slim.rb', 'config/initializers/slim.rb'
-        copy_file 'path.rb', 'config/initializers/path.rb'
         
         copy_file 'config.yml.example', 'config/config.yml.example'
         copy_file 'database.yml.example', 'config/database.yml.example'
