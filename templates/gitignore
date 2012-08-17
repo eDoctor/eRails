@@ -1,6 +1,7 @@
 .DS_Store
 .svn
 .bundle
+.rvmrc
 *~
 *.lock
 *.swp
@@ -11,4 +12,3 @@
 /public/uploads
 /log
 /tmp
-.rvmrc

@@ -4,7 +4,7 @@ module Sass::Script::Functions
   def path(source, only_path = Sass::Script::Bool.new(false))
     source = source.value.path
 
-    source = "url(#{source})" if !only_path.to_bool
+    source = "url(/assets/#{source})" if !only_path.to_bool
 
     Sass::Script::String.new(source)
   end
@@ -19,7 +19,7 @@ class String
     source = self
 
     if source[0..7] != "/assets/" && source[0..3] != "http"
-      source = "/assets/" + APP_CONFIG['assets_dir'] + "/" + source
+      source = APP_CONFIG["assets_dir"] + "/" + source
     end
 
     source
