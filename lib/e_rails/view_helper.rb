@@ -30,8 +30,8 @@ module ERails
 
     def local2web(*args)
       args.map do |arg|
-        next arg if arg.first == '#'
-        next javascript_path File.join(APP_CONFIG['assets_dir'], 'src', arg) if onDev
+        next arg if arg[0..0] == '#' || arg[0..7] == '/assets/'
+        next File.join('assets', APP_CONFIG['assets_dir'], 'src', arg) if onDev
         File.join(APP_CONFIG['js_host'], APP_CONFIG['assets_dir'], RELEASE_VERSION, arg)
       end.inspect
     end
