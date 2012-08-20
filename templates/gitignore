@@ -1,13 +1,12 @@
 .DS_Store
-.svn
 .bundle
 .rvmrc
 *~
-*.lock
 *.swp
 /config/database.yml
 /config/config.yml
 /config/services.yml
+/config/unicorn.rb
 /public/system
 /public/uploads
 /log
