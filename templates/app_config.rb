@@ -16,7 +16,7 @@ elsif File.exist?(p2)
   js_content = File.read(p2)
 end
 
-js_content.gsub(/\/\/ v([\d\.]+).*'jquery': '([\d\.]+)'/m) do
+js_content.gsub(/\/\/ v([\d\.]+).*'\$': 'jquery\/([\d\.]+)\//m) do
   v[:seajs] = $1
   v[:jquery] = $2
 end
