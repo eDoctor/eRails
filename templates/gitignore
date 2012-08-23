@@ -9,5 +9,6 @@
 /config/unicorn.rb
 /public/system
 /public/uploads
-/log
-/tmp
+/public/assets
+/log/*
+/tmp/*
