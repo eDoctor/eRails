@@ -16,5 +16,5 @@ end
 # gem 'json'
 # gem 'mongoid', '~> 3.0.0'
 # gem 'mysql2'
-# gem 'rails_emoji', '~> 1.5'
+# gem 'rails_emoji', '~> 1.6.0'
 # gem 'rails_kindeditor', '~> 0.3.0'
