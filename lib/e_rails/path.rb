@@ -3,12 +3,7 @@ module Sass::Script::Functions
   # instead of image-url(), but with the `assets_dir` prefix
   def path(source, only_path = Sass::Script::Bool.new(false))
     source = source.value.path
-
-    unless only_path.to_bool
-      source = File.join('/assets', source) unless source.start_with?('/assets/', 'http')
-      source = "url(#{source})"
-    end
-
+    source = "url(#{'/assets/' unless source.start_with?('/assets/', 'http')}#{source})" unless only_path.to_bool
     Sass::Script::String.new(source)
   end
 
