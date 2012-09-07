@@ -4,9 +4,9 @@ APP_CONFIG = YAML.load_file("#{root}/config/config.yml")[Rails.env]
 RELEASE_VERSION = File.basename(root)
 
 # for seajs_and_jquery helper
-fileName = 'seajs-config.js'
-p1 = root + '/app/assets/javascripts/modules/' + fileName
-p2 = root + '/tmp/' + fileName
+filename = 'seajs-config.js'
+p1 = root + '/app/assets/javascripts/modules/' + filename
+p2 = root + '/tmp/' + filename
 js_content = ''
 v = {}
 
