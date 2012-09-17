@@ -15,7 +15,7 @@ module ERails
       id = 'seajsnode'
 
       if onDev
-        paths = paths.map { |path| 'modules/' + path }
+        paths = paths.map { |k, v| 'modules/' + v }
         return javascript_include_tag(paths[:seajs], :id => id) + javascript_include_tag(paths[:seajs_config], paths[:jquery])
       else
         path = File.join(APP_CONFIG['js_host'], 'modules', "??#{paths[:seajs]},#{paths[:jquery]}")
