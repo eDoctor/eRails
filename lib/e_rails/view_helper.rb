@@ -7,20 +7,20 @@ module ERails
 
     def seajs_and_jquery(*args)
       v = args.extract_options!
-      files = [
-        "seajs/#{v[:seajs] || JS_VERSION[:seajs]}/sea.js",
-        "seajs-config.js",
-        "jquery/#{v[:jquery] || JS_VERSION[:jquery]}/jquery.js"
-      ]
+      paths = {
+        :seajs => "seajs/#{v[:seajs] || JS_VERSION[:seajs]}/sea.js",
+        :jquery => "jquery/#{v[:jquery] || JS_VERSION[:jquery]}/jquery.js",
+        :seajs_config => "seajs-config.js"
+      }
       id = 'seajsnode'
 
       if onDev
-        files = files.map { |file| 'modules/' + file }
-        return javascript_include_tag(files[0], :id => id) + javascript_include_tag(files[1], files[2])
+        paths = paths.map { |path| 'modules/' + path }
+        return javascript_include_tag(paths[:seajs], :id => id) + javascript_include_tag(paths[:seajs_config], paths[:jquery])
       else
-        path = File.join(APP_CONFIG['js_host'], 'modules', "??#{files.join(',')}")
-        # ts = '?' + RELEASE_VERSION + '.js'
-        return javascript_include_tag path, :id => id, :type => nil
+        path = File.join(APP_CONFIG['js_host'], 'modules', "??#{paths[:seajs]},#{paths[:jquery]}")
+        ts = '?' + RELEASE_VERSION + '.js'
+        return javascript_include_tag path + ts, :id => id, :type => nil
       end
     end
 
