@@ -20,7 +20,7 @@ module ERails
         insert_into_file 'config/environments/production.rb', "\n  config.assets.precompile += [/[^_]\.css$/]\n", :after => /\( search.js \)\n/
         insert_into_file 'config/environments/development.rb', "\n  config.sass.line_comments = false\n", :after => /debug = true\n/
 
-        run 'bundle install && bundle exec compass init rails'
+        run 'bundle exec compass init rails'
         run 'rm -r app/assets/images/*; rm -r app/assets/javascripts/*; rm -r app/assets/stylesheets/*'
         run 'rm -r app/views/layouts/application.html.erb; rm -r config/database.yml; rm -r public/index.html'
       end
