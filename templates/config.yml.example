@@ -1,15 +1,15 @@
-# 请按字母顺序排列
-# host前面请添加：http://，后面不加/
-
+# 请归类后按字母排序
+# 请为 host 添加 http:// 前缀，末尾不加 /
 defaults: &defaults
-  site_name: 
-  assets_dir: undefined  # 本项目静态资源目录名
+  site_name:
+  assets_dir: undefined # 本项目静态资源目录名
+  js_host: http://edrjs.com
 
 development:
   <<: *defaults
-  host: 
+  host:
 
 production:
   <<: *defaults
-  host: 
-  js_host: 
+  host:
+  google_analytics:
