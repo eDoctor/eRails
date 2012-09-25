@@ -37,7 +37,7 @@ javascript:
 
 ## date_time(from_time, locale = I18n.locale)
 
-把计算机时间格式化为自然语言，可传入字符串。输出：2012年12月21日、昨天、3分钟前...
+把计算机时间格式化为自然语言，可传入字符串。输出：3分钟前、昨天 12:00、just now ...
 
 ## geturl(*args)
 
