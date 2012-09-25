@@ -10,7 +10,7 @@ module ERails
 
     # 格式化时间为自然语言
     def date_time(from_time, locale = I18n.locale)
-      from_time = Time.parse(from_time).localtime
+      from_time = Time.parse(from_time.to_s).localtime
       to_time   = Time.now.localtime
       distance_in_seconds = (to_time - from_time).to_i
 
