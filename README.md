@@ -3,38 +3,30 @@
 
 ## Step 1
 
-```ruby
-rails new app_name -d=mysql -T --skip-bundle
-cd app_name/
+```bash
+rails new APP --skip-bundle --skip-gemfile --skip-test-unit; cd APP
 ```
 
 ## Step 2
 
-使用下面的代码替换掉默认的 `Gemfile` 内容
-
-```ruby
-source 'http://ruby.taobao.org'
-
-gem 'rails', '~> 3.2.8'
-gem 'e_rails', :git => 'git://github.com/eDoctor/eRails.git'
-gem 'slim-rails'
-
-group :assets do
-  gem 'compass-rails'
-  gem 'sass-rails'
-end
-
-########## ☟ Sort by letter ☟ ##########
-# gem 'capistrano'
-# gem 'mongoid'
-# gem 'mysql2'
-# gem 'rails_emoji'
-# gem 'rails_kindeditor'
+```bash
+curl https://raw.github.com/eDoctor/eRails/master/templates/Gemfile > Gemfile
 ```
 
 ## Step 3
 
-```ruby
+```bash
+echo 'rvm use 1.9.3@APP --create' > .rvmrc
+```
+
+## Step 4
+
+```bash
 bundle install
+```
+
+## Step 5
+
+```bash
 rails g e_rails:install
 ```
