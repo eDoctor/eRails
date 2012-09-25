@@ -1,0 +1,14 @@
+# encoding: utf-8
+# for date_time helpers
+# refer to https://github.com/eDoctor/eRails/blob/master/Helpers.md#date_timetime
+en:
+  datetime:
+    distance_in_words:
+      just_now:         "just now"
+      x_seconds_ago:    "%{count} seconds ago"
+      x_minutes_ago:    "%{count} minutes ago"
+      today_moment:     "today %{time}"
+      yesterday_moment: "yesterday %{time}"
+      formats:
+        long:  '%B %d, %Y %H:%M'
+        short: '%d %b %H:%M'

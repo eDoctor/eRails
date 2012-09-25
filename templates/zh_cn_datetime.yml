@@ -1,0 +1,14 @@
+# encoding: utf-8
+# for date_time helpers
+# refer to https://github.com/eDoctor/eRails/blob/master/Helpers.md#date_timetime
+zh_cn:
+  datetime:
+    distance_in_words:
+      just_now:         "刚刚"
+      x_seconds_ago:    "%{count} 秒前"
+      x_minutes_ago:    "%{count} 分钟前"
+      today_moment:     "今天 %{time}"
+      yesterday_moment: "昨天 %{time}"
+      formats:
+        long:  '%Y年%m月%d日 %H:%M'
+        short: '%m月%d日 %H:%M'

@@ -3,37 +3,41 @@ require 'active_support/concern'
 module ERails
   module CustomMethods
     extend ActiveSupport::Concern
-    
+
     included do
       helper_method :date_time, :geturl
     end
 
-    ## 格式化日期时间 ##
-    def date_time(time)
-      time = Time.parse(time).localtime
-      now = DateTime.now
-      format = "%Y年%m月%d日 %H:%M"
-      arr = ["今天", "明天", "后天", "前天", "昨天"]
-      s = (time - now).to_i.seconds.abs # 秒数差
-      d = (time.to_date - now.to_date).to_i # 天数差
+    # 格式化时间为自然语言
+    def date_time(from_time, locale = I18n.locale)
+      from_time = Time.parse(from_time).localtime
+      to_time   = Time.now.localtime
+      distance_in_seconds = (to_time - from_time).to_i
 
-      if s <= 1.minute
-        return "刚刚" if time < now
-        return (s < 1 ? 1 : s).to_s << "秒后"
-      elsif s <= 1.hour
-        return (s/60).to_i.to_s << "分钟" << (time < now ? "前" : "后")
-      elsif d.abs <= 2
-        return arr[d] << time.strftime(" %H:%M")
-      elsif time.year == now.year
-        return time.strftime(format[5..-1])
-      else
-        return time.strftime(format)
+      I18n.with_options :locale => locale, :scope => :'datetime.distance_in_words' do |locale|
+        case distance_in_seconds
+        when 0..5 then locale.t :just_now
+        when 6..59 then locale.t :x_seconds_ago, :count => distance_in_seconds
+        # 1分钟 ～ 59分钟59秒
+        when 60..3599 then locale.t :x_minutes_ago, :count => (distance_in_seconds/60).round
+        # >= 1小时
+        else
+          distance_in_days = (to_time.to_date - from_time.to_date).to_i
+          case distance_in_days
+          when 0 then locale.t :today_moment, :time => from_time.strftime('%H:%M')
+          when 1 then locale.t :yesterday_moment, :time => from_time.strftime('%H:%M')
+          else
+            if from_time.year == to_time.year
+              from_time.strftime(locale.t('formats.short'))
+            else
+              from_time.strftime(locale.t('formats.long'))
+            end
+          end
+        end
       end
-    rescue
-      nil
     end
 
-    ## 处理当前页 URI 的参数并返回新的 URI ##
+    # 处理当前页 URI 的参数并返回新的 URI
     def geturl(*args)
       opts = args.extract_options!
       url, params = request.fullpath.split('?')
