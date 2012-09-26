@@ -5,7 +5,7 @@ module ERails
         File.expand_path('../../../../templates', __FILE__)
       end
 
-      def copy_configuration
+      def copy_files
         copy_file 'gitignore', '.gitignore'
         copy_file 'config.yml.example', 'config/config.yml.example'
         copy_file 'database.yml.example', 'config/database.yml.example'
