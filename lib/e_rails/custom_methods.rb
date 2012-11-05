@@ -70,7 +70,7 @@ module ERails
       # 替换/新增参数
       opts[:edit_params].each { |k,v| params[k.to_s] = v.to_s } unless opts[:edit_params].blank?
 
-      return url + (params.blank? ? "" : "?" + params.collect{|k,v| k.to_s + "=" + v.to_s}.join("&"))
+      return [url, params.collect{|k,v| k.to_s + "=" + v.to_s}.join("&")].join('?')
     end
   end
 end
