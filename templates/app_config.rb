@@ -1,24 +1,7 @@
 root = Rails.root.to_s
 
 APP_CONFIG = YAML.load_file("#{root}/config/config.yml")[Rails.env]
+
+path = Rails.env == "production" ? "tmp" : "app/assets/javascripts/#{APP_CONFIG['assets_dir']}"
+JS_VERSION = JSON(File.read(File.join(root, path, 'package.json')))["devDependencies"]
 RELEASE_VERSION = File.basename(root)
-
-# for seajs_and_jquery helper
-filename = 'seajs-config.js'
-p1 = root + '/app/assets/javascripts/modules/' + filename
-p2 = root + '/tmp/' + filename
-js_content = ''
-v = {}
-
-if File.exist?(p1)
-  js_content = File.read(p1)
-elsif File.exist?(p2)
-  js_content = File.read(p2)
-end
-
-js_content.gsub(/\/\/ v([\d\.]+).*'\$': 'jquery\/([\d\.]+)\//m) do
-  v[:seajs] = $1
-  v[:jquery] = $2
-end
-
-JS_VERSION = v
