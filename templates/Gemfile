@@ -1,7 +1,7 @@
 source 'http://ruby.taobao.org'
 
 gem 'rails', '~> 3.2.8'
-gem 'e_rails', :git => 'git://github.com/eDoctor/eRails.git'
+gem 'e_rails', :git => 'git://github.com/eDoctor/eRails.git', :branch => '2.x'
 gem 'slim-rails'
 
 group :assets do
