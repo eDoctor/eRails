@@ -11,7 +11,6 @@ Gem::Specification.new do |s|
   s.authors  = ["mrichie <https://github.com/mrichie>", "wǒ_is神仙 <https://github.com/jsw0528>"]
   s.summary  = "after: rails new"
 
-  s.add_dependency "rails", "~> 3.2.6"
-  s.add_dependency 'sass', "~> 3.2.5"
-
+  s.add_dependency "rails", "~> 3.2.8"
+  s.add_dependency 'sass', "~> 3.2.8"
 end
