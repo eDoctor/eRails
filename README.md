@@ -10,7 +10,7 @@ rails new APP --skip-bundle --skip-gemfile --skip-test-unit; cd APP
 ## Step 2
 
 ```bash
-curl https://raw.github.com/eDoctor/eRails/master/templates/Gemfile > Gemfile
+curl https://raw.github.com/eDoctor/eRails/2.x/templates/Gemfile > Gemfile
 ```
 
 ## Step 3
