@@ -28,7 +28,7 @@
 
 如果需要给`seajs.use`传入回调，直接在 Slim 上写 JS，并借助`Array.to_cmd`：
 
-```ruby
+```
 javascript:
   seajs.use(#{{ ['core', '~$'].to_cmd }}, function(Core, $) {
     $(function() {
