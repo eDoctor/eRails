@@ -2,40 +2,51 @@
 module ERails
   module ViewHelper
     def onDev
-      Rails.env != 'production'
+      Rails.env != "production"
     end
 
-    def seajs_and_jquery(*args)
-      v = args.extract_options!
-      paths = {
-        :seajs => "seajs/#{v[:seajs] || JS_VERSION[:seajs]}/sea.js",
-        :jquery => "jquery/#{v[:jquery] || JS_VERSION[:jquery]}/jquery.js",
-        :seajs_config => "seajs-config.js"
-      }
-      id = 'seajsnode'
+    def seajs_include_tag(version = JS_VERSION["seajs"])
+      source = "seajs/#{ version }/sea"
+      configs = ""
 
       if onDev
-        paths.map{ |key, item| paths[key] = 'modules/' + item }
-        return javascript_include_tag(paths[:seajs], :id => id) +
-               javascript_include_tag(paths[:seajs_config], paths[:jquery]) +
-               (v[:jquery].blank? ? '' : content_tag('script', "seajs.config({ alias: { '$': 'jquery/#{v[:jquery]}/jquery' } })", {}, false))
+        jquery_aliases =
+          "seajs.config({" +
+            "alias:{" +
+              "'$':'#{ get_jquery_path "$" }'," +
+              "'$-2.x':'#{ get_jquery_path "$-2.x" }'" +
+            "}" +
+          "})"
+
+        configs =
+          javascript_include_tag("seajs/config", :type => nil) +
+          content_tag(:script, jquery_aliases, { :type => nil }, false)
       else
-        path = File.join(APP_CONFIG['js_host'], 'modules', "??#{paths[:seajs]},#{paths[:jquery]}")
-        ts = '?' + RELEASE_VERSION + '.js'
-        return javascript_include_tag path + ts, :id => id, :type => nil
+        source =
+          APP_CONFIG["js_host"] + "/combo??" +
+          ["~" + source, "seajs-config"].to_cmd.map{ |file| file + '.js' }.join(',')
       end
+
+      javascript_include_tag(source, :type => nil, :id => "seajsnode") + configs
     end
 
-    def seajs_use(*args)
-      content_tag "script", "seajs.use(#{local2web *args})", {}, false
+    def seajs_use(*sources)
+      content_tag :script, "seajs.use(#{ sources.to_cmd })", { :type => nil }, false
     end
 
-    def local2web(*args)
-      args.map do |arg|
-        next arg if arg.start_with?('/assets/', '#')
-        next File.join('/assets', APP_CONFIG['assets_dir'], 'src', arg) if onDev
-        File.join(APP_CONFIG['js_host'], APP_CONFIG['assets_dir'], RELEASE_VERSION, arg)
-      end.inspect
+    ################################
+    def seajs_and_jquery(*sources)
+      seajs_include_tag
+    end
+
+    def local2web(*sources)
+      sources.to_cmd
+    end
+    ################################
+
+    private
+    def get_jquery_path(key)
+      "gallery/jquery/#{ JS_VERSION[key] }/jquery"
     end
   end
 end

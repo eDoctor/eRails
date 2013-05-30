@@ -1,36 +1,38 @@
 # Helpers
 ***
 
-## seajs_and_jquery
+### seajs_and_jquery & local2web 已被废弃
 
-默认从 `seajs-config.js` 自动获取版本号，也可手动配置。
+## seajs_include_tag
 
-```ruby
-== seajs_and_jquery
-== seajs_and_jquery :seajs => '1.2.1', :jquery => '1.8.0'
-```
-
-## seajs_use(*args)
-
-在页面生成 JS 代码。`{{ assets_dir }}` 在 `config.yml` 中配置。
+引入`sea.js`，以及相关配置。可指定 SeaJS 的版本
 
 ```ruby
-== seajs_use 'index'
-# <script>seajs.use(['/assets/{{ assets_dir }}/src/index'])</script>
-
-== seajs_use 'index', '#jquery/1.7.2/jquery'
-# <script>seajs.use(['/assets/{{ assets_dir }}/src/index', '#jquery/1.7.2/jquery'])</script>
+= seajs_include_tag
+= seajs_include_tag '2.1.0'
 ```
 
-## local2web(*args)
+## seajs_use
 
-转换 `development` 和 `production` 不同环境下 JS 路径。需要给 `seajs.use` 传入 callback 时使用。
+加载 CMD 模块
+
+```ruby
+= seajs_use 'core', '~$'
+```
+
+上面的代码会在页面中插入一个`script`标签，如果模块名称前有波浪线`~`符号，将不会自动添加项目路径前缀，原貌输出：
+
+```
+<script>seajs.use(['path/to/core', '$'])</script>
+```
+
+如果需要给`seajs.use`传入回调，直接在 Slim 上写 JS，并借助`Array.to_cmd`：
 
 ```ruby
 javascript:
-  seajs.use(#{{ local2web 'index', '#jquery/1.7.2/jquery' }}, function(i, $) {
+  seajs.use(#{{ ['core', '~$'].to_cmd }}, function(Core, $) {
     $(function() {
-      ...
+      seajs.log('呵呵')
     })
   })
 ```
