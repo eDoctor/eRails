@@ -23,7 +23,7 @@ module ERails
           content_tag(:script, jquery_aliases, { :type => nil }, false)
       else
         source =
-          APP_CONFIG["js_host"] + "/combo??" +
+          APP_CONFIG["js_host"] + "/??" +
           ["~" + source, "seajs-config"].to_cmd.map{ |file| file + '.js' }.join(',')
       end
 
