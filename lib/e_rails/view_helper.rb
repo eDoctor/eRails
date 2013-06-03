@@ -34,6 +34,14 @@ module ERails
       content_tag :script, "seajs.use(#{ sources.to_cmd })", { :type => nil }, false
     end
 
+    def noncmd_include_tag(*sources)
+      sources.map do |source|
+        source = File.join("noncmd", File.basename(source, ".js") + ".js")
+        source = File.join(APP_CONFIG["js_host"], source) unless onDev
+        javascript_include_tag(source)
+      end.join('')
+    end
+
     ################################
     def seajs_and_jquery(*sources)
       seajs_include_tag
