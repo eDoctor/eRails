@@ -39,7 +39,7 @@ module ERails
         source = File.join("noncmd", File.basename(source, ".js") + ".js")
         source = File.join(APP_CONFIG["js_host"], source) unless onDev
         javascript_include_tag(source)
-      end.join('')
+      end.join('').html_safe
     end
 
     ################################
