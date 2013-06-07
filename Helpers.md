@@ -5,11 +5,10 @@
 
 ## seajs_include_tag
 
-引入`sea.js`，以及相关配置。可指定 SeaJS 的版本
+引入`sea.js`，以及相关配置
 
 ```ruby
 = seajs_include_tag
-= seajs_include_tag '2.1.0'
 ```
 
 ## seajs_use

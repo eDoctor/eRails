@@ -5,33 +5,28 @@ module ERails
       Rails.env != "production"
     end
 
-    def seajs_include_tag(version = JS_VERSION["seajs"])
-      source = "seajs/#{ version }/sea"
-      configs = ""
+    def seajs_include_tag
+      source = "seajs/#{ JS_VERSION["seajs"] }/sea.js"
+      source = File.join(APP_CONFIG["js_host"], source + "?" + RELEASE_VERSION)  unless onDev
 
-      if onDev
-        jquery_aliases =
-          "seajs.config({" +
-            "alias:{" +
-              "'$':'#{ get_jquery_path "$" }'," +
-              "'$-2.x':'#{ get_jquery_path "$-2.x" }'" +
-            "}" +
-          "})"
+      configs = {
+        "alias" => {
+          "$" => "#{ get_jquery_path '$' }",
+          "$-2.x" => "#{ get_jquery_path '$-2.x' }"
+        },
+        "vars" => {
+          "locale" => "#{ I18n.locale.to_s }"
+        }
+      }
 
-        configs =
-          javascript_include_tag("seajs/config", :type => nil) +
-          content_tag(:script, jquery_aliases, { :type => nil }, false)
-      else
-        source =
-          APP_CONFIG["js_host"] + "/??" +
-          ["~" + source, "seajs-config"].to_cmd.map{ |file| file + '.js' }.join(',')
-      end
+      tags = content_tag(:script, "seajs.config(" + configs.to_json + ");", { :type => nil }, false)
+      tags = javascript_include_tag("seajs/config", :type => nil) + tags  if onDev
 
-      javascript_include_tag(source, :type => nil, :id => "seajsnode") + configs
+      javascript_include_tag(source, :type => nil, :id => "seajsnode") + tags
     end
 
     def seajs_use(*sources)
-      content_tag :script, "seajs.use(#{ sources.to_cmd })", { :type => nil }, false
+      content_tag :script, "seajs.use(#{ sources.to_cmd });", { :type => nil }, false
     end
 
     def noncmd_include_tag(*sources)
