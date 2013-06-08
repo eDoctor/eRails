@@ -16,20 +16,20 @@
 加载 CMD 模块
 
 ```ruby
-= seajs_use 'foo', '~$'
+= seajs_use 'foo', '#gallery/jquery/1.10.1/jquery'
 ```
 
-上面的代码会在页面中插入一个`script`标签，如果模块名称前有波浪线`~`符号，将不会自动添加项目路径前缀，原貌输出：
+上面的代码会在页面中插入一个`script`标签，如果模块名称前有井号`#`符号，将不会自动添加项目路径前缀，原貌输出：
 
 ```
-<script>seajs.use(['path/to/foo', '$'])</script>
+<script>seajs.use(['path/to/foo', 'gallery/jquery/1.10.1/jquery'])</script>
 ```
 
 如果需要给`seajs.use`传入回调，直接在 Slim 上写 JS，并借助`Array.to_cmd`：
 
 ```
 javascript:
-  seajs.use(#{{ ['foo', '~$'].to_cmd }}, function(Foo, $) {
+  seajs.use(#{{ ['foo', '#gallery/jquery/1.10.1/jquery'].to_cmd }}, function(Foo, $) {
     $(function() {
       seajs.log('呵呵')
     })
