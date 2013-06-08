@@ -31,10 +31,10 @@ module ERails
 
     def noncmd_include_tag(*sources)
       sources.map do |source|
-        source = File.join("noncmd", File.basename(source, ".js") + ".js")
-        source = File.join(APP_CONFIG["js_host"], source) unless onDev
+        source = File.join("noncmd", source)
+        source = File.join(APP_CONFIG["js_host"], source)  unless onDev
         javascript_include_tag(source)
-      end.join('').html_safe
+      end.join("").html_safe
     end
 
     ################################
