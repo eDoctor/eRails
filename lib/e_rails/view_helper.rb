@@ -6,50 +6,47 @@ module ERails
     end
 
     def seajs_include_tag
-      source = "seajs/#{ JS_VERSION["seajs"] }/sea.js"
-      source = File.join(APP_CONFIG["js_host"], source + "?" + RELEASE_VERSION)  unless onDev
+      seajs_dir = "seajs/#{ JS_VERSION["seajs"] }/"
 
       configs = {
         "alias" => {
-          "$" => "#{ get_jquery_path '$' }",
-          "$-2.x" => "#{ get_jquery_path '$-2.x' }"
+          "$" => "gallery/jquery/#{ JS_VERSION["jquery"] }/jquery",
+          "seajs-debug" => seajs_dir + "seajs-debug"
         },
         "vars" => {
-          "locale" => "#{ I18n.locale.to_s }"
+          "locale" => I18n.locale
         }
       }
 
-      tags = content_tag(:script, "seajs.config(" + configs.to_json + ");", { :type => nil }, false)
-      tags = javascript_include_tag("seajs/config", :type => nil) + tags  if onDev
+      nocache = !onDev ? "" :
+        ";seajs.on('fetch',function(data){" +
+          "data.requestUri = data.uri + '?' + new Date().getTime()" +
+        "})"
 
-      javascript_include_tag(source, :type => nil, :id => "seajsnode") + tags
+      scripts = content_tag :script, "seajs.config(" + configs.to_json + ")" + nocache, { :type => nil }, false
+
+      return javascript_include_tag(seajs_dir + "sea", :type => nil, :id => "seajsnode") +
+             javascript_include_tag(seajs_dir + "seajs-log", :type => nil) +
+             javascript_include_tag("seajs/config", :type => nil) +
+             scripts  if onDev
+
+      javascript_include_tag(
+        File.join(APP_CONFIG["js_host"], seajs_dir) + "??sea.js,seajs-log.js?" + RELEASE_VERSION,
+        :type => nil,
+        :id => "seajsnode"
+      ) + scripts
     end
 
     def seajs_use(*sources)
-      content_tag :script, "seajs.use(#{ sources.to_cmd });", { :type => nil }, false
+      content_tag :script, "seajs.use(#{ sources.to_cmd })", { :type => nil }, false
     end
 
     def noncmd_include_tag(*sources)
       sources.map do |source|
-        source = File.join("noncmd", source)
+        source = "noncmd/" + source
         source = File.join(APP_CONFIG["js_host"], source)  unless onDev
         javascript_include_tag(source)
       end.join("").html_safe
-    end
-
-    ################################
-    def seajs_and_jquery(*sources)
-      seajs_include_tag
-    end
-
-    def local2web(*sources)
-      sources.to_cmd
-    end
-    ################################
-
-    private
-    def get_jquery_path(key)
-      "gallery/jquery/#{ JS_VERSION[key] }/jquery"
     end
   end
 end
