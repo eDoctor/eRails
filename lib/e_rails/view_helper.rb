@@ -20,7 +20,7 @@ module ERails
 
       nocache = !onDev ? "" :
         ";seajs.on('fetch',function(data){" +
-          "data.requestUri = data.uri + '?' + new Date().getTime()" +
+          "data.uri&&(data.requestUri = data.uri + '?' + new Date().getTime())" +
         "})"
 
       scripts = content_tag :script, "seajs.config(" + configs.to_json + ")" + nocache, { :type => nil }, false
