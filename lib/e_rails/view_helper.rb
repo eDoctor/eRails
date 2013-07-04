@@ -5,7 +5,9 @@ module ERails
       Rails.env != "production"
     end
 
-    def seajs_include_tag
+    def seajs_include_tag(*opts)
+      opts = opts.extract_options!
+
       seajs_dir = "seajs/#{ JS_VERSION["seajs"] }/"
 
       configs = {
@@ -18,20 +20,26 @@ module ERails
         }
       }
 
-      nocache = !onDev ? "" :
+      plugins = ([:log] | opts[:plugins].to_a).map { |plugin| "seajs-" + plugin.to_s + ".js" }
+
+      nocache =
         ";seajs.on('fetch',function(data){" +
           "data.uri&&(data.requestUri = data.uri + '?' + new Date().getTime())" +
-        "})"
+        "})" if onDev
 
-      scripts = content_tag :script, "seajs.config(" + configs.to_json + ")" + nocache, { :type => nil }, false
+      scripts = content_tag :script, "seajs.config(" + configs.to_json + ")" + nocache.to_s, { :type => nil }, false
 
-      return javascript_include_tag(seajs_dir + "sea", :type => nil, :id => "seajsnode") +
-             javascript_include_tag(seajs_dir + "seajs-log", :type => nil) +
-             javascript_include_tag("seajs/config", :type => nil) +
-             scripts  if onDev
+      if onDev
+        plugins = plugins.map { |plugin| seajs_dir + plugin }
+
+        return javascript_include_tag(seajs_dir + "sea.js", :type => nil, :id => "seajsnode") +
+               javascript_include_tag(*plugins, :type => nil) +
+               javascript_include_tag("seajs/config", :type => nil) +
+               scripts
+      end
 
       javascript_include_tag(
-        File.join(APP_CONFIG["js_host"], seajs_dir) + "??sea.js,seajs-log.js?" + RELEASE_VERSION,
+        js_host() + seajs_dir + "??sea.js," + plugins.join(",") + "?" + RELEASE_VERSION,
         :type => nil,
         :id => "seajsnode"
       ) + scripts
@@ -44,9 +52,13 @@ module ERails
     def noncmd_include_tag(*sources)
       sources.map do |source|
         source = "noncmd/" + source
-        source = File.join(APP_CONFIG["js_host"], source)  unless onDev
-        javascript_include_tag(source)
+        source = js_host() + source unless onDev
+        javascript_include_tag(source, :type => nil)
       end.join("").html_safe
+    end
+
+    def js_host
+      request.protocol + "edrjs.com/"
     end
   end
 end

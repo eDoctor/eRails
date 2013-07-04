@@ -1,9 +1,7 @@
 # 请归类后按字母排序
 # 请为 host 添加 http:// 前缀，末尾不加 /
 defaults: &defaults
-  site_name:
   assets_dir: undefined # 本项目静态资源目录名
-  js_host: http://edrjs.com
 
 development:
   <<: *defaults

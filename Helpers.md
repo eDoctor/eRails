@@ -5,10 +5,11 @@
 
 ## seajs_include_tag
 
-引入`sea.js`，以及相关配置
+引入`sea.js`，以及相关配置、插件
 
 ```ruby
 = seajs_include_tag
+= seajs_include_tag plugins: [:text, :combo]
 ```
 
 ## seajs_use
