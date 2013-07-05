@@ -22,12 +22,12 @@ module ERails
 
       plugins = ([:log] | opts[:plugins].to_a).map { |plugin| "seajs-" + plugin.to_s + ".js" }
 
-      nocache =
-        ";seajs.on('fetch',function(data){" +
-          "data.uri&&(data.requestUri = data.uri + '?' + new Date().getTime())" +
-        "})" if onDev
+      # nocache =
+      #   ";seajs.on('fetch', function(data) {" +
+      #     "data.uri && (data.requestUri = data.uri + '?' + new Date().getTime())" +
+      #   "})" if onDev
 
-      scripts = content_tag :script, "seajs.config(" + configs.to_json + ")" + nocache.to_s, { :type => nil }, false
+      scripts = content_tag :script, "seajs.config(" + configs.to_json + ")", { :type => nil }, false
 
       if onDev
         plugins = plugins.map { |plugin| seajs_dir + plugin }
