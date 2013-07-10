@@ -17,11 +17,14 @@ module ERails
         },
         "vars" => {
           "locale" => I18n.locale
-        },
-        "map" => [
-          [".js", ".js?" + (onDev ? Time.now.to_i.to_s : RELEASE_VERSION)]
-        ]
+        }
       }
+
+      configs = configs.merge({
+        "map" => [
+          [".js", ".js?" + Time.now.to_i.to_s]
+        ]
+      }) if onDev
 
       plugins = ([:log] | opts[:plugins].to_a).map { |plugin| "seajs-" + plugin.to_s + ".js" }
 
