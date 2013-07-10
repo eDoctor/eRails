@@ -29,7 +29,7 @@ module ERails
 
         return javascript_include_tag(seajs_dir + "sea.js", :type => nil, :id => "seajsnode") +
                javascript_include_tag(*plugins, :type => nil) +
-               javascript_include_tag("seajs/config", :type => nil) +
+               javascript_include_tag("seajs/config.js", :type => nil) +
                scripts
       end
 
@@ -46,6 +46,7 @@ module ERails
 
     def noncmd_include_tag(*sources)
       sources.map do |source|
+        source = source + ".js" if File.extname(source).blank?
         source = "noncmd/" + source
         source = js_host() + source unless onDev
         javascript_include_tag(source, :type => nil)
