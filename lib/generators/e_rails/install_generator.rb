@@ -25,7 +25,6 @@ module ERails
       def modify_environments
         gsub_file 'config/environments/production.rb', /config.assets.compile = false/, 'config.assets.compile = true'
         insert_into_file 'config/environments/production.rb', "\n  config.assets.precompile += [/[^_]\.css$/]", :after => /\( search.js \)/
-        insert_into_file 'config/environments/development.rb', "\n  config.sass.line_comments = false\n", :after => /debug = true\n/
       end
 
       def add_assets_path
