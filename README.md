@@ -4,25 +4,26 @@
 ## Step 1
 
 ```bash
-rails new APP --skip-bundle --skip-gemfile --skip-test-unit; cd APP
+rails new APP --skip-bundle --skip-gemfile --skip-test-unit
 ```
 
 ## Step 2
 
 ```bash
-curl https://raw.github.com/eDoctor/eRails/2.x/templates/Gemfile > Gemfile
+echo 'rvm use 1.9.3@APP --create' > APP/.rvmrc
 ```
 
 ## Step 3
 
 ```bash
-echo 'rvm use 1.9.3@APP --create' > .rvmrc
+cd APP
+curl https://raw.github.com/eDoctor/eRails/2.x/templates/Gemfile > Gemfile
 ```
 
 ## Step 4
 
 ```bash
-bundle install
+bundle
 ```
 
 ## Step 5
