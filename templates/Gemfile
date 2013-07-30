@@ -6,6 +6,7 @@ gem 'slim-rails'
 
 group :assets do
   gem 'compass-rails'
+  gem 'compass', '~> 0.13.alpha.4'
   gem 'sass-rails'
 end
 
