@@ -10,8 +10,8 @@ module ERails
       end
 
       def clean
-        run 'rm -r app/assets/images/* app/assets/javascripts/* app/assets/stylesheets/* app/views/layouts/*'
-        run 'rm -r .gitignore config/database.yml public/index.html'
+        run 'rm -r app/assets/**'
+        run 'rm .gitignore app/views/layouts/* config/database.yml public/index.html'
       end
 
       def copy_files
@@ -24,8 +24,8 @@ module ERails
       end
 
       def modify_environments
-        gsub_file 'config/environments/production.rb', /config.assets.compile = false/, 'config.assets.compile = true'
-        insert_into_file 'config/environments/production.rb', "\n  config.assets.precompile += [/[^_]\.css$/]", :after => /\( search.js \)/
+        gsub_file 'config/environments/production.rb', /config\.assets\.compile = false/, 'config.assets.compile = true'
+        gsub_file 'config/environments/production.rb', /# config\.assets\.precompile \+= %w\( search\.js \)/, 'config.assets.precompile += [Proc.new { |path| File.basename(path) =~ /^[^_][a-z0-9-]+\.css$/ }]'
         insert_into_file 'config/environments/development.rb', "\n  config.sass.debug_info = true\n", :before => /end/
       end
 
@@ -36,7 +36,7 @@ module ERails
       def set_locales_for_date_time_helper
         copy_file 'zh_cn_datetime.yml', 'config/locales/zh_cn_datetime.yml'
         copy_file 'en_datetime.yml', 'config/locales/en_datetime.yml'
-        gsub_file 'config/application.rb', /# config.i18n.default_locale = :de/, 'config.i18n.default_locale = :zh_cn'
+        gsub_file 'config/application.rb', /# config\.i18n\.default_locale = :de/, 'config.i18n.default_locale = :zh_cn'
       end
     end
   end
