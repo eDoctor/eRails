@@ -1,12 +1,12 @@
 source 'http://ruby.taobao.org'
 
 gem 'rails', '~> 3.2.8'
-gem 'e_rails', :git => 'git://github.com/eDoctor/eRails.git', :branch => '2.x'
+gem 'e_rails', :git => 'https://github.com/eDoctor/eRails.git', :branch => '2.x'
 gem 'slim-rails'
 
 group :assets do
   gem 'compass-rails'
-  gem 'compass', '~> 0.13.alpha.4'
+  gem 'compass', :git => 'https://github.com/chriseppstein/compass.git', :ref => '34159da'
   gem 'sass-rails'
 end
 
