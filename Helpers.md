@@ -1,8 +1,6 @@
 # Helpers
 ***
 
-### seajs_and_jquery & local2web 已被废弃
-
 ## seajs_include_tag(*options)
 
 引入`sea.js`，以及相关配置、插件
@@ -52,6 +50,25 @@ javascript:
 > 以上 3 个 helper 都会根据`Rails.env`自动调整线上、线下路径
 
 ---
+
+## button_tag(*options, &block)
+
+## submit_tag(*options, &block)
+
+```ruby
+= button_tag
+  # => <button type="button" class="btn">Button</button>
+
+= submit_tag
+  # => <button type="submit" class="btn">Submit</button>
+
+= button_tag 'Delete', class: 'btn btn-danger'
+  # => <button type="button" class="btn btn-danger">Delete</button>
+
+= button_tag class: nil do
+  span click me
+  # => <button type="button"><span>click me</span></button>
+```
 
 ## date_time(from_time, locale = I18n.locale)
 

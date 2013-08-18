@@ -59,9 +59,27 @@ module ERails
       end.join("").html_safe
     end
 
+    # Overwrite helpers in Rails
+    def button_tag(*options, &block)
+      _button_tag 'button', *options, &block
+    end
+
+    def submit_tag(*options, &block)
+      _button_tag 'submit', *options, &block
+    end
+
     private
     def js_host
       request.protocol + "edrjs.com/"
+    end
+
+    def _button_tag(type, *options, &block)
+      opts = options.extract_options!
+      opts.reverse_merge! class: 'btn'
+      opts.merge! type: type
+
+      return content_tag :button, opts, &block if block_given?
+      content_tag :button, options.first || t('button_tag.' + type), opts
     end
   end
 end

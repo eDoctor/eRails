@@ -21,6 +21,10 @@ module ERails
         copy_file 'app_config.rb', 'config/initializers/app_config.rb'
         copy_file 'slim.rb', 'config/initializers/slim.rb'
         copy_file 'layout.slim', 'app/views/layouts/application.slim'
+        copy_file 'zh_cn_datetime.yml', 'config/locales/zh_cn_datetime.yml'
+        copy_file 'en_datetime.yml', 'config/locales/en_datetime.yml'
+        copy_file 'zh_cn_button_tag.yml', 'config/locales/zh_cn_button_tag.yml'
+        copy_file 'en_button_tag.yml', 'config/locales/en_button_tag.yml'
       end
 
       def modify_environments
@@ -33,9 +37,7 @@ module ERails
         insert_into_file 'config/application.rb', "    config.assets.paths << \"\#{Rails.root}/app/assets/fonts\"\n", after: /enabled = true\n/
       end
 
-      def set_locales_for_date_time_helper
-        copy_file 'zh_cn_datetime.yml', 'config/locales/zh_cn_datetime.yml'
-        copy_file 'en_datetime.yml', 'config/locales/en_datetime.yml'
+      def set_default_locale
         gsub_file 'config/application.rb', /# config\.i18n\.default_locale = :de/, 'config.i18n.default_locale = :zh_cn'
       end
     end
