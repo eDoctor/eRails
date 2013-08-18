@@ -26,11 +26,11 @@ module ERails
       def modify_environments
         gsub_file 'config/environments/production.rb', /config\.assets\.compile = false/, 'config.assets.compile = true'
         gsub_file 'config/environments/production.rb', /# config\.assets\.precompile \+= %w\( search\.js \)/, 'config.assets.precompile += [Proc.new { |path| File.basename(path) =~ /^[^_][a-z0-9-]+\.css$/ }]'
-        insert_into_file 'config/environments/development.rb', "\n  config.sass.debug_info = true\n", :before => /end/
+        insert_into_file 'config/environments/development.rb', "\n  config.sass.debug_info = true\n", before: /end/
       end
 
       def add_assets_path
-        insert_into_file 'config/application.rb', "    config.assets.paths << \"\#{Rails.root}/app/assets/fonts\"\n", :after => /enabled = true\n/
+        insert_into_file 'config/application.rb', "    config.assets.paths << \"\#{Rails.root}/app/assets/fonts\"\n", after: /enabled = true\n/
       end
 
       def set_locales_for_date_time_helper

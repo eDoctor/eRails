@@ -14,18 +14,18 @@ module ERails
       to_time   = Time.now.localtime
       distance_in_seconds = (to_time - from_time).to_i
 
-      I18n.with_options :locale => locale, :scope => :'datetime.distance_in_words' do |locale|
+      I18n.with_options locale: locale, scope: :'datetime.distance_in_words' do |locale|
         case distance_in_seconds
         when 0..5 then locale.t :just_now
-        when 6..59 then locale.t :x_seconds_ago, :count => distance_in_seconds
+        when 6..59 then locale.t :x_seconds_ago, count: distance_in_seconds
         # 1分钟 ～ 59分钟59秒
-        when 60..3599 then locale.t :x_minutes_ago, :count => (distance_in_seconds/60).round
+        when 60..3599 then locale.t :x_minutes_ago, count: (distance_in_seconds/60).round
         # >= 1小时
         else
           distance_in_days = (to_time.to_date - from_time.to_date).to_i
           case distance_in_days
-          when 0 then locale.t :today_moment, :time => from_time.strftime('%H:%M')
-          when 1 then locale.t :yesterday_moment, :time => from_time.strftime('%H:%M')
+          when 0 then locale.t :today_moment, time: from_time.strftime('%H:%M')
+          when 1 then locale.t :yesterday_moment, time: from_time.strftime('%H:%M')
           else
             if from_time.year == to_time.year
               from_time.strftime(locale.t('formats.short'))

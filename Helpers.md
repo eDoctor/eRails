@@ -3,7 +3,7 @@
 
 ### seajs_and_jquery & local2web 已被废弃
 
-## seajs_include_tag
+## seajs_include_tag(*options)
 
 引入`sea.js`，以及相关配置、插件
 
@@ -12,7 +12,7 @@
 = seajs_include_tag plugins: [:text, :combo]
 ```
 
-## seajs_use
+## seajs_use(*sources)
 
 加载 CMD 模块
 
@@ -37,7 +37,7 @@ javascript:
   })
 ```
 
-## noncmd_include_tag
+## noncmd_include_tag(*sources)
 
 引入`noncmd/`目录内的普通 js 文件（非 CMD 模块）
 
