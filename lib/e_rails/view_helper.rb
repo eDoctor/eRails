@@ -66,27 +66,17 @@ module ERails
         "id" => sanitize_to_id(name),
         "value" => options.first,
         "class" => "input",
-        "placeholder" => _capitalize(name),
-        "autocomplete" => "off"
+        "placeholder" => _capitalize(name)
       )
       tag :input, opts
     end
 
     def hidden_field_tag(name, *options)
-      opts = options.extract_options!.stringify_keys.reverse_merge(
-        "class" => nil,
-        "placeholder" => nil,
-        "autocomplete" => nil
-      )
-      text_field_tag(name, options.first, opts.merge("type" => "hidden"))
+      _x_field_tag name, "hidden", *options
     end
 
     def file_field_tag(name, *options)
-      opts = options.extract_options!.stringify_keys.reverse_merge(
-        "class" => nil,
-        "placeholder" => nil
-      )
-      text_field_tag(name, options.first, opts.merge("type" => "file"))
+      _x_field_tag name, "file", *options
     end
 
 
@@ -102,6 +92,14 @@ module ERails
 
       return content_tag :button, opts, &block if block_given?
       content_tag :button, options.first || t("button_tag." + type), opts
+    end
+
+    def _x_field_tag(name, type, *options)
+      opts = options.extract_options!.stringify_keys.reverse_merge(
+        "class" => nil,
+        "placeholder" => nil
+      )
+      text_field_tag name, options.first, opts.merge("type" => type)
     end
 
     def _capitalize(value)
