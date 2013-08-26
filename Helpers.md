@@ -1,13 +1,14 @@
 # Helpers
 ***
 
-## seajs_include_tag(*plugins)
+## seajs_include_tag(*options)
 
 引入`sea.js`，以及相关配置、插件
 
 ```ruby
 = seajs_include_tag
 = seajs_include_tag :text, :combo
+= seajs_include_tag :text, alias: { _: 'gallery/underscore/1.5.1/underscore' }, debug: true
 ```
 
 ## seajs_use(*sources)
@@ -57,17 +58,17 @@ javascript:
 
 ```ruby
 = button_tag
-  # => <button type="button" class="btn">Button</button>
+# <button type="button" class="btn">Button</button>
 
 = submit_tag
-  # => <button type="submit" class="btn">Submit</button>
+# <button type="submit" class="btn">Submit</button>
 
 = button_tag 'Delete', class: 'btn btn-danger'
-  # => <button type="button" class="btn btn-danger">Delete</button>
+# <button type="button" class="btn btn-danger">Delete</button>
 
 = button_tag class: nil do
   span click me
-  # => <button type="button"><span>click me</span></button>
+# <button type="button"><span>click me</span></button>
 ```
 
 ## date_time(from_time, locale = I18n.locale)
