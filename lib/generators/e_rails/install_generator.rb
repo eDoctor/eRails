@@ -11,13 +11,12 @@ module ERails
 
       def clean
         run 'rm -r app/assets/**'
-        run 'rm .gitignore app/views/layouts/* config/database.yml public/index.html'
+        run 'rm .gitignore app/views/layouts/* config/database.yml public/index.html config/locales/en.yml'
       end
 
       def copy_files
         copy_file 'gitignore', '.gitignore'
         copy_file 'config.example.yml', 'config/config.example.yml'
-        copy_file 'database.example.yml', 'config/database.example.yml'
         copy_file 'app_config.rb', 'config/initializers/app_config.rb'
         copy_file 'slim.rb', 'config/initializers/slim.rb'
         copy_file 'layout.slim', 'app/views/layouts/application.slim'
