@@ -2,6 +2,8 @@ module ERails
   class Engine < ::Rails::Engine
     initializer 'erails_app' do |app|
       require "e_rails/extends"
+      require "e_rails/tag_helper"
+      require "e_rails/form_tag_helper"
 
       ActiveSupport.on_load(:action_view) do
         require "e_rails/view_helper"

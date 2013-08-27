@@ -1,6 +1,7 @@
 # encoding: utf-8
 module ERails
   module ViewHelper
+
     def onDev
       Rails.env != "production"
     end
@@ -33,7 +34,7 @@ module ERails
       end
 
       javascript_include_tag(
-        _js_host() + seajs_dir + "??sea.js," + plugins.join(",") + "?" + RELEASE_VERSION,
+        js_host() + seajs_dir + "??sea.js," + plugins.join(",") + "?" + RELEASE_VERSION,
         type: nil,
         id: "seajsnode"
       ) + configs_tag
@@ -47,65 +48,33 @@ module ERails
       sources.map do |source|
         source = source + ".js" if File.extname(source).blank?
         source = "noncmd/" + source
-        source = _js_host() + source unless onDev
+        source = js_host() + source unless onDev
         javascript_include_tag(source, type: nil)
       end.join("").html_safe
     end
 
-    # Overwrite helpers in Rails
-    def button_tag(*options, &block)
-      _button_tag "button", *options, &block
-    end
+    # def button_tag(*options, &block)
+    #   _button_tag "button", *options, &block
+    # end
 
-    def submit_tag(*options, &block)
-      _button_tag "submit", *options, &block
-    end
-
-    def text_field_tag(name, *options)
-      opts = options.extract_options!.stringify_keys.reverse_merge(
-        "type" => "text",
-        "name" => name,
-        "id" => sanitize_to_id(name),
-        "value" => options.first,
-        "class" => "input",
-        "placeholder" => _capitalize(name)
-      )
-      tag :input, opts
-    end
-
-    def hidden_field_tag(name, *options)
-      _x_field_tag name, "hidden", *options
-    end
-
-    def file_field_tag(name, *options)
-      _x_field_tag name, "file", *options
-    end
+    # def submit_tag(*options, &block)
+    #   _button_tag "submit", *options, &block
+    # end
 
 
     private
-    def _js_host
-      request.protocol + "edrjs.com/"
-    end
+      def js_host
+        request.protocol + "edrjs.com/"
+      end
 
-    def _button_tag(type, *options, &block)
-      opts = options.extract_options!.stringify_keys
-      opts.reverse_merge! "class" => "btn"
-      opts.merge! "type" => type
+      # def _button_tag(type, *options, &block)
+      #   opts = options.extract_options!.stringify_keys
+      #   opts.reverse_merge! "class" => "btn"
+      #   opts.merge! "type" => type
 
-      return content_tag :button, opts, &block if block_given?
-      content_tag :button, options.first || t("button_tag." + type), opts
-    end
+      #   return content_tag :button, opts, &block if block_given?
+      #   content_tag :button, options.first || t("button_tag." + type), opts
+      # end
 
-    def _x_field_tag(name, type, *options)
-      opts = options.extract_options!.stringify_keys.reverse_merge(
-        "class" => nil,
-        "placeholder" => nil
-      )
-      text_field_tag name, options.first, opts.merge("type" => type)
-    end
-
-    def _capitalize(value)
-      sanitize_to_id(value).split("_").map { |val| val.capitalize }.join(" ")
-    end
   end
 end
