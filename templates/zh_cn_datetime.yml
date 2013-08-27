@@ -1,6 +1,6 @@
 # encoding: utf-8
 # for date_time helpers
-# refer to https://github.com/eDoctor/eRails/blob/master/Helpers.md
+# refer to https://github.com/eDoctor/eRails/blob/2.x/lib/e_rails/custom_methods.rb#L12-L38
 zh_cn:
   datetime:
     distance_in_words:

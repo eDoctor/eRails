@@ -10,7 +10,7 @@ html
   body
     = yield
 
-    / = seajs_include_tag plugins: [:text]
+    / = seajs_include_tag :text, alias: { _: 'gallery/underscore/1.5.1/underscore' }
     / javascript:
     /   seajs.config({
     /     preload: [this.JSON ? '' : 'gallery/json/1.0.3/json']
