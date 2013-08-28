@@ -1,22 +1,46 @@
 # encoding: utf-8
-module ActionView; module Helpers; module TagHelper
+module ActionView; module Helpers
 
-  INPUT_TYPES = %w( text password search email tel url )
-
-  # Overwrite https://github.com/rails/rails/blob/v3.2.14/actionpack/lib/action_view/helpers/tag_helper.rb#L65-L67
-  def tag(name, options = nil, open = false, escape = true)
-    if name.to_s == "input" && INPUT_TYPES.include?(options["type"])
-      options["class"] = "input" unless options.key?("class")
-      options["placeholder"] = multi_capitalize(options["name"]) unless options.key?("placeholder")
-      options.except! "size"
-    end
-
-    "<#{name}#{tag_options(options, escape) if options}#{open ? ">" : " />"}".html_safe
+  class InstanceTag
+    DEFAULT_FIELD_OPTIONS = {}
+    DEFAULT_TEXT_AREA_OPTIONS = {}
   end
 
-  private
-    def multi_capitalize(value)
-      sanitize_to_id(value).split("_").map { |val| val.capitalize }.join(" ")
+  module TagHelper
+
+    INPUT_TYPES = %w( text password search email tel url )
+
+    # Overwrite https://github.com/rails/rails/blob/v3.2.14/actionpack/lib/action_view/helpers/tag_helper.rb#L65-L67
+    def tag(name, options = nil, open = false, escape = true)
+      # merge default className and placeholder
+      options = reverse_merge_options(options) if name.to_s == "input" && INPUT_TYPES.include?(options["type"])
+
+      "<#{name}#{tag_options(options, escape) if options}#{open ? ">" : " />"}".html_safe
     end
 
-end; end; end
+    # Overwrite https://github.com/rails/rails/blob/v3.2.14/actionpack/lib/action_view/helpers/tag_helper.rb#L92-L99
+    def content_tag(name, content_or_options_with_block = nil, options = nil, escape = true, &block)
+      if block_given?
+        options = content_or_options_with_block if content_or_options_with_block.is_a?(Hash)
+        content_tag_string(name, capture(&block), options, escape)
+      else
+        # merge default className and placeholder
+        options = reverse_merge_options(options) if name.to_s == "textarea"
+
+        content_tag_string(name, content_or_options_with_block, options, escape)
+      end
+    end
+
+    private
+      def multi_capitalize(value)
+        sanitize_to_id(value).split("_").map { |val| val.capitalize }.join(" ")
+      end
+
+      def reverse_merge_options(options)
+        options ||= {}
+        options.stringify_keys.reverse_merge "class" => "input", "placeholder" => multi_capitalize(options["name"])
+      end
+
+  end
+
+end; end
