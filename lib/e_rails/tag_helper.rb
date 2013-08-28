@@ -32,6 +32,7 @@ module ActionView; module Helpers
     end
 
     private
+
       def multi_capitalize(value)
         sanitize_to_id(value).split("_").map { |val| val.capitalize }.join(" ")
       end

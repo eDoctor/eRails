@@ -2,3 +2,5 @@ en:
   button_tag:
     button: Button
     submit: Submit
+    search: Search
+    login: Sign in
