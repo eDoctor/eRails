@@ -46,7 +46,7 @@ module ERails
       if params.blank?
         params = {}
       else
-        params = params.split("&").collect{|x| x.split("=")}.collect{|x| {x[0].to_s => x[1].to_s}}.inject(:merge)
+        params = params.split('&').collect{|x| x.split('=')}.collect{|x| {x[0].to_s => x[1].to_s}}.inject(:merge)
       end
 
       # 保留参数(其余移除)
@@ -70,7 +70,7 @@ module ERails
       # 替换/新增参数
       opts[:edit_params].each { |k,v| params[k.to_s] = v.to_s } unless opts[:edit_params].blank?
 
-      return [url, params.collect{|k,v| k.to_s + "=" + v.to_s}.join("&")].join('?')
+      return [url, params.collect{|k,v| k.to_s + '=' + v.to_s}.join('&')].join('?')
     end
   end
 end

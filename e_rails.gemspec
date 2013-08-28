@@ -12,5 +12,5 @@ Gem::Specification.new do |s|
   s.summary  = "after: rails new"
 
   s.add_dependency "rails", "~> 3.2.8"
-  s.add_dependency 'sass', "~> 3.2.8"
+  s.add_dependency "sass", "~> 3.2.8"
 end

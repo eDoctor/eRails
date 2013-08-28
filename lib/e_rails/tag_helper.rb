@@ -3,7 +3,7 @@ module ActionView; module Helpers; module TagHelper
 
   INPUT_TYPES = %w( text password search email tel url )
 
-  # Overwrite https://github.com/rails/rails/blob/master/actionview/lib/action_view/helpers/tag_helper.rb#L67-L69
+  # Overwrite https://github.com/rails/rails/blob/v3.2.14/actionpack/lib/action_view/helpers/tag_helper.rb#L65-L67
   def tag(name, options = nil, open = false, escape = true)
     if name.to_s == "input" && INPUT_TYPES.include?(options["type"])
       options["class"] = "input" unless options.key?("class")
