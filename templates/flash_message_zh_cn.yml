@@ -1,0 +1,13 @@
+zh_cn:
+  flash:
+    success:
+      default: 成功！
+
+    warning:
+      default: 警告！
+
+    danger:
+      default: 危险！
+
+    info:
+      default: 提示！
