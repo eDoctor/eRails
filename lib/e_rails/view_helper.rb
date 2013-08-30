@@ -3,7 +3,7 @@ module ERails
   module ViewHelper
 
     def onDev
-      Rails.env != "production"
+      Rails.env.development?
     end
 
     def seajs_include_tag(*options)

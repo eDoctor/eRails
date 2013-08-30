@@ -21,7 +21,7 @@ class Array
   def to_cmd
     self.map do |item|
       next item[1..-1] if item.start_with?("#")
-      File.join(APP_CONFIG["assets_dir"], Rails.env == "production" ? RELEASE_VERSION : "src", item)
+      File.join(APP_CONFIG["assets_dir"], Rails.env.production? ? RELEASE_VERSION : "src", item)
     end
   end
 end
