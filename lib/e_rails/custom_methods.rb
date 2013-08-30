@@ -5,7 +5,7 @@ module ERails
     extend ActiveSupport::Concern
 
     included do
-      helper_method :date_time, :geturl, :flash_success, :flash_warning, :flash_danger, :flash_error, :flash_info
+      helper_method :date_time, :geturl, :flash_message
     end
 
     # 格式化时间为自然语言
@@ -74,34 +74,31 @@ module ERails
     end
 
     # Flash Messages
-    FLASH_TYPES = %w( success warning danger info )
-
-    FLASH_TYPES.each do |type|
+    %w( success error ).each do |type|
       class_eval <<-RUBY_EVAL
         def flash_#{type}(msg = nil)
-          flash_message "#{type}", msg
+          flash_message "#{type}", msg, id: 'flash-notice'
         end
       RUBY_EVAL
     end
-    alias_method :flash_error, :flash_danger
 
-    private
+    def flash_message(*options)
+      id = options.extract_options![:id]
+      type, msg = options
 
-      def flash_message(*options)
-        options.extract_options!
-        type, msg = options
-        type = "success" unless FLASH_TYPES.include? type
-        msg ||= t("flash.#{type}.default")
+      type = "danger" if type.to_s == "error"
+      type = "success" unless %w( success warning danger info ).include? type.to_s
+      msg ||= t("flash.#{type}.default")
 
-        [
-          "<div class=\"flash-message\">",
-            "<div class=\"flash-#{type}\">",
-              "<p>",
-                msg,
-              "</p>",
-            "</div>",
-          "</div>"
-        ].join("").html_safe()
-      end
+      [
+        "<div class=\"flash-message\"#{' id="' + id + '"' unless id.blank? }>",
+          "<div class=\"flash-#{type}\">",
+            "<p>",
+              msg,
+            "</p>",
+          "</div>",
+        "</div>"
+      ].join("").html_safe
+    end
   end
 end
