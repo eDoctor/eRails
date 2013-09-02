@@ -10,8 +10,8 @@ module ERails
       end
 
       def clean
-        run 'rm -r app/assets/**'
-        run 'rm .gitignore app/views/layouts/* config/database.yml public/index.html config/locales/en.yml'
+        run 'rm -rf app/assets/**'
+        run 'rm -f .gitignore app/views/layouts/* config/database.yml public/index.html config/locales/en.yml'
       end
 
       def copy_files
