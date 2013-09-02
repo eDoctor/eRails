@@ -5,13 +5,13 @@ module ERails
     extend ActiveSupport::Concern
 
     included do
-      helper_method :date_time, :geturl, :flash_message
+      helper_method :date_time, :geturl
     end
 
     # 格式化时间为自然语言
     def date_time(from_time, locale = I18n.locale)
       from_time = Time.parse(from_time.to_s).localtime
-      to_time   = Time.now.localtime
+      to_time = Time.now.localtime
       distance_in_seconds = (to_time - from_time).to_i
 
       I18n.with_options locale: locale, scope: :'datetime.distance_in_words' do |locale|
@@ -73,32 +73,5 @@ module ERails
       return [url, params.collect{|k,v| k.to_s + '=' + v.to_s}.join('&')].join('?')
     end
 
-    # Flash Messages
-    %w( success error ).each do |type|
-      class_eval <<-RUBY_EVAL
-        def flash_#{type}(msg = nil)
-          flash_message "#{type}", msg, id: 'flash-notice'
-        end
-      RUBY_EVAL
-    end
-
-    def flash_message(*options)
-      id = options.extract_options![:id]
-      type, msg = options
-
-      type = "danger" if type.to_s == "error"
-      type = "success" unless %w( success warning danger info ).include? type.to_s
-      msg ||= t("flash.#{type}.default")
-
-      [
-        "<div class=\"flash-message\"#{' id="' + id + '"' unless id.blank? }>",
-          "<div class=\"flash-#{type}\">",
-            "<p>",
-              msg,
-            "</p>",
-          "</div>",
-        "</div>"
-      ].join("").html_safe
-    end
   end
 end

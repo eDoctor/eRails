@@ -57,5 +57,25 @@ module ERails
       request.protocol + "edrjs.com/"
     end
 
+    def flash_message(*options)
+      flash_tags = ''
+      [:success, :error, :warn, :info].each do |type|
+        unless flash[type].blank?
+          msg_tags = ''
+          flash[type].to_a.each do |msg|
+            msg_tags += content_tag(:p, t(msg, scope: [:flash, type], default: msg))
+          end
+
+          flash_tags += content_tag(:div, msg_tags.html_safe, class: "flash-#{type}")
+        end
+      end
+
+      options = options.extract_options!.stringify_keys
+      options.reverse_merge! 'id' => 'j-flash'
+      options.merge! 'class' => ['flash-message'] | options['class'].to_a
+
+      content_tag :div, flash_tags.html_safe, options
+    end
+
   end
 end
