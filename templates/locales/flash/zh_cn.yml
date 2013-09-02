@@ -1,0 +1,13 @@
+zh_cn:
+  flash:
+    success:
+      default: 恭喜，操作成功！
+
+    error:
+      default: 抱歉，出错啦！
+
+    warn:
+      default: 警告！
+
+    info:
+      default: 提示！

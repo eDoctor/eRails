@@ -1,0 +1,13 @@
+en:
+  flash:
+    success:
+      default: Well done!
+
+    error:
+      default: Sorry, something went wrong!
+
+    warn:
+      default: Warning!
+
+    info:
+      default: Attention!
