@@ -53,16 +53,13 @@ module ERails
       end.join("").html_safe
     end
 
-    def js_host
-      request.protocol + "edrjs.com/"
-    end
-
     def flash_message(*options)
       flash_tags = ''
       [:success, :error, :warn, :info].each do |type|
-        unless flash[type].blank?
+        unless (_flash = flash[type]).blank?
+          _flash = _flash.to_s.to_a unless _flash.is_a? Array
           msg_tags = ''
-          flash[type].to_a.each do |msg|
+          _flash.each do |msg|
             msg_tags += content_tag(:p, t(msg, scope: [:flash, type], default: msg))
           end
 
@@ -76,6 +73,12 @@ module ERails
 
       content_tag :div, flash_tags.html_safe, options
     end
+
+    private
+
+      def js_host
+        request.protocol + "edrjs.com/"
+      end
 
   end
 end
