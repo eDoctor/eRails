@@ -2,8 +2,8 @@
 module ActionView; module Helpers
 
   class InstanceTag
-    DEFAULT_FIELD_OPTIONS = {}
-    DEFAULT_TEXT_AREA_OPTIONS = {}
+    DEFAULT_FIELD_OPTIONS.except! "size"
+    DEFAULT_TEXT_AREA_OPTIONS.except! "cols", "rows"
   end
 
   module TagHelper
