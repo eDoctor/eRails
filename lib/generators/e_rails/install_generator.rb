@@ -11,13 +11,15 @@ module ERails
 
       def clean
         run 'rm -r app/assets/**'
-        run 'rm .gitignore app/views/layouts/* public/index.html config/locales/en.yml'
+        run 'rm .gitignore app/views/layouts/* config/database.yml public/index.html config/locales/en.yml'
       end
 
       def copy_files
-        FileUtils.cp 'gitignore', '.gitignore'
-        FileUtils.cp 'layout.slim', 'app/views/layouts/application.slim'
-        FileUtils.cp_r %w( initializers/ locales/ config.example.yml ), 'config/'
+        copy_file 'gitignore', '.gitignore'
+        copy_file 'layout.slim', 'app/views/layouts/application.slim'
+        copy_file 'config.example.yml', 'config/config.example.yml'
+        copy_file 'initializers/*.rb', 'config/initializers/'
+        copy_file 'locales/**/*.yml', 'config/locales/'
       end
 
       def modify_env_files
