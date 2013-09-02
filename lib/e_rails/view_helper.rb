@@ -56,10 +56,9 @@ module ERails
     def flash_message(*options)
       flash_tags = ''
       [:success, :error, :warn, :info].each do |type|
-        unless (_flash = flash[type]).blank?
-          _flash = _flash.to_s.to_a unless _flash.is_a? Array
+        unless flash[type].blank?
           msg_tags = ''
-          _flash.each do |msg|
+          ([] << flash[type]).flatten.each do |msg|
             msg_tags += content_tag(:p, t(msg, scope: [:flash, type], default: msg))
           end
 
