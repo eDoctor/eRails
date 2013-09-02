@@ -18,8 +18,18 @@ module ERails
         copy_file 'gitignore', '.gitignore'
         copy_file 'layout.slim', 'app/views/layouts/application.slim'
         copy_file 'config.example.yml', 'config/config.example.yml'
-        copy_file 'initializers/*.rb', 'config/initializers/'
-        copy_file 'locales/**/*.yml', 'config/locales/'
+
+        # copy_files 'initializers/*.rb', 'config/initializers/'
+        copy_file 'initializers/app_config.rb', 'config/initializers/app_config.rb'
+        copy_file 'initializers/slim.rb',       'config/initializers/slim.rb'
+
+        # copy_files 'locales/**/*.yml', 'config/locales/'
+        copy_file 'locales/button_tag/en.yml',    'config/locales/button_tag/en.yml'
+        copy_file 'locales/button_tag/zh_cn.yml', 'config/locales/button_tag/zh_cn.yml'
+        copy_file 'locales/datetime/en.yml',      'config/locales/datetime/en.yml'
+        copy_file 'locales/datetime/zh_cn.yml',   'config/locales/datetime/zh_cn.yml'
+        copy_file 'locales/flash/en.yml',         'config/locales/flash/en.yml'
+        copy_file 'locales/flash/zh_cn.yml',      'config/locales/flash/zh_cn.yml'
       end
 
       def modify_env_files
