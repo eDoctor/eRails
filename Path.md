@@ -1,28 +1,30 @@
-# path
-***
+# Path
 
-当传入 `/assets/` 或 `http` 开头的绝对路径时，原值输出，否则自动添加 `{{ assets_dir }}` 前缀。
+若传入的值不是以`/`、`http:`、`https:`开头，则自动补全[`assets_dir`](https://github.com/eDoctor/eRails/blob/2.x/templates/config.example.yml#L4)。
 
-## SCSS 中：path(source, only_path=false)
+## Sass: path(source, only_path=false)
 
-```css
-background-image: path('ninja.png')
-/* background-image: url(/assets/{{ assets_dir }}/ninja.png) */
+```scss
+background-image: path('ninja.png');
+// background-image: url(/assets/{{ assets_dir }}/ninja.png);
 
-background-image: path('/assets/ninja.png')
-/* background-image: url(/assets/ninja.png) */
+background-image: path('/path/to/ninja.png');
+// background-image: url(/path/to/ninja.png);
 
 $icons: sprite-map(path('icons/*.png', true));
 ```
 
-## View 中：String.path
+## Ruby: String.path
 
 ```ruby
-"ninja".path
-# "{{ assets_dir }}/ninja"
+"ninja.png".path
+# {{ assets_dir }}/ninja.png
 
-"/assets/ninja.png".path
-# "/assets/ninja.png"
+"/path/to/ninja.png".path
+# /path/to/ninja.png
+
+"http://example.com/ninja.png".path
+# http://example.com/ninja.png
 ```
 
 ```ruby
