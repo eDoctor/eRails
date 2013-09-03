@@ -1,33 +1,32 @@
-# 新建 Rails 3.x 项目步骤
-***
+# 新建 Rails 3.2.x 项目步骤
 
 ## Step 1
 
-```bash
-rails new APP --skip-bundle --skip-gemfile --skip-test-unit
+```sh
+rails new Ninja -G -J -O -T --skip-gemfile --skip-bundle
 ```
 
 ## Step 2
 
-```bash
-echo 'rvm use 1.9.3@APP --create' > APP/.rvmrc
+```sh
+echo 'rvm use 1.9.3@Ninja --create' > Ninja/.rvmrc
 ```
 
 ## Step 3
 
-```bash
-cd APP
+```sh
+cd Ninja
 curl https://raw.github.com/eDoctor/eRails/2.x/templates/Gemfile > Gemfile
 ```
 
 ## Step 4
 
-```bash
+```sh
 bundle
 ```
 
 ## Step 5
 
-```bash
+```sh
 rails g e_rails:install
 ```
