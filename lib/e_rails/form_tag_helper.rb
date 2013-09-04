@@ -19,11 +19,15 @@ module ActionView; module Helpers; module FormTagHelper
     class_eval <<-RUBY_EVAL
       def #{type}_tag(*sources, &block)
         options = sources.extract_options!.stringify_keys
-        options.reverse_merge! "class" => "btn"
-        options.merge! "type" => "#{type}"
+        options.merge!(
+          "type" => "#{type}",
+          "class" => ([] << "btn" << options["class"]).flatten.compact.uniq
+        )
 
         return content_tag :button, options, &block if block_given?
-        content_tag :button, sources.first || t("button_tag.#{type}"), options
+
+        val = sources.empty? ? "#{type}" : sources.first
+        content_tag :button, t(val, scope: [:button_tag], default: val), options
       end
     RUBY_EVAL
   end
