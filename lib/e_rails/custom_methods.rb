@@ -41,7 +41,7 @@ module ERails
     def geturl(*args)
       options = args.extract_options!
       url, params = request.fullpath.split('?')
-      url = args.first unless args.first.blank?
+      url = args.first unless args.empty?
 
       params = if params.blank?
         {}

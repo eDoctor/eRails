@@ -54,11 +54,11 @@ module ERails
     end
 
     def flash_message(*options)
-      flash_tags = ''
+      flash_tags = ""
       [:success, :error, :warn, :info].each do |type|
         unless flash[type].blank?
-          msg_tags = ''
-          ([] << flash[type]).flatten.each do |msg|
+          msg_tags = ""
+          ([] << flash[type]).flatten.compact.each do |msg|
             msg_tags += content_tag(:p, t(msg, scope: [:flash, type], default: msg))
           end
 
@@ -67,8 +67,8 @@ module ERails
       end
 
       options = options.extract_options!.stringify_keys
-      options.reverse_merge! 'id' => 'j-flash'
-      options.merge! 'class' => ['flash-message'] | options['class'].to_a
+      options.reverse_merge! "id" => "j-flash"
+      options.merge! "class" => ([] << "flash-message" << options["class"]).flatten.compact.uniq
 
       content_tag :div, flash_tags.html_safe, options
     end
