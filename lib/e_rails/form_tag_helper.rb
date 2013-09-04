@@ -15,7 +15,7 @@ module ActionView; module Helpers; module FormTagHelper
   end
   alias_method :telephone_field_tag, :tel_field_tag
 
-  %w( button submit ).each do |type|
+  %w( button submit reset ).each do |type|
     class_eval <<-RUBY_EVAL
       def #{type}_tag(*sources, &block)
         options = sources.extract_options!.stringify_keys.merge(
