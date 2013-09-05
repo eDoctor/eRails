@@ -183,10 +183,10 @@ redirect_to root_path, info: 'Cooooool~~'
 
 对比原版：:exclamation:
 
-1. 参数个数减少，再也不用给`value`传`nil`了。
+1. 参数个数减少，传参顺序不变。
 2. 固定`type`，不可更改。
 3. 默认 className 为`input`，可追加其他 className。
-4. 默认把`name`的属性值解析成`placeholder`。
+4. 默认把`name`属性的值解析成`placeholder`。
 5. `form_for`模式下去除了默认的`size`属性。
 
 ```ruby
@@ -203,12 +203,12 @@ redirect_to root_path, info: 'Cooooool~~'
 # <input type="password" name="password" value="123456" id="password" />
 ```
 
-## text_area_tag
+## text_area_tag(name, content = nil, options = {})
 
 对比原版：:exclamation:
 
 1. 默认 className 为`input`，可追加其他 className。
-2. 默认把`name`的属性值解析成`placeholder`。
+2. 默认把`name`属性的值解析成`placeholder`。
 3. `form_for`模式下去除了默认的`cols`和`rows`属性。
 
 ```ruby

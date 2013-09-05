@@ -11,6 +11,9 @@ background-image: path('ninja.png');
 background-image: path('/path/to/ninja.png');
 // background-image: url(/path/to/ninja.png);
 
+background-image: path('http://example.com/ninja.png');
+// background-image: url(http://example.com/ninja.png);
+
 $icons: sprite-map(path('icons/*.png', true));
 ```
 
