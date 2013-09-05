@@ -1,6 +1,6 @@
 # Helpers
 
-## seajs_include_tag(*options)
+## seajs_include_tag(*plugins, config = {})
 
 引入`sea.js`，以及相关[配置](https://github.com/seajs/seajs/issues/262)、[插件](https://github.com/seajs)。
 
@@ -80,9 +80,15 @@ javascript:
 # 刚刚
 ```
 
-## geturl(*args)
+## geturl([new_pathname], operators = {})
 
-处理当前页面 Uri 的 QueryString 并返回新的 Uri。功能类似 [jsUri](https://github.com/derek-watson/jsUri)
+处理当前页面的 Query String。功能类似 [jsUri](https://github.com/derek-watson/jsUri)
+
+`operators`包括：
+
+1. `keep_params`: 保留项，其余移除。
+2. `remove_params`: 移除项，其余保留。如果传入空数组，则移除全部。
+3. `edit_params`: 新增或替换。
 
 ```ruby
 # 当前页面: /users?a=1&b=2&c=3
@@ -109,7 +115,7 @@ javascript:
 
 ---
 
-## flash_message(*options)
+## flash_message(options = {})
 
 输出 Flash Message，自动判断类型。
 
@@ -149,12 +155,12 @@ redirect_to root_path, info: 'Cooooool~~'
 
 ---
 
-## button_tag(*sources, &block)
+## button_tag([value], options = {}, &block)
 #### 和它的小伙伴们：`submit_tag` `reset_tag`
 
 对比原版：:exclamation:
 
-1. 参数个数减少，`value`可以是 [locale key](https://github.com/eDoctor/eRails/tree/2.x/templates/locales/button_tag)，也可以直接传入文字。如果没有传值，默认取与`type`同名的 locale key。
+1. `value`可以是 [locale key](https://github.com/eDoctor/eRails/tree/2.x/templates/locales/button_tag)，也可以直接传入文字。如果没有传值，默认取与`type`同名的 locale key。
 2. 固定`type`，不可更改。
 3. 默认 className 为`btn`，可追加其他 className。
 
@@ -178,12 +184,12 @@ redirect_to root_path, info: 'Cooooool~~'
 # </button>
 ```
 
-## text_field_tag(*sources)
+## text_field_tag(name, [value], options = {})
 #### 和它的小伙伴们：`password_field_tag` `search_field_tag` `email_field_tag` `tel_field_tag` `url_field_tag` `hidden_field_tag`
 
 对比原版：:exclamation:
 
-1. 参数个数减少，传参顺序不变。
+1. `value`调整为可选参数。
 2. 固定`type`，不可更改。
 3. 默认 className 为`input`，可追加其他 className。
 4. 默认把`name`属性的值解析成`placeholder`。
@@ -212,11 +218,11 @@ redirect_to root_path, info: 'Cooooool~~'
 3. `form_for`模式下去除了默认的`cols`和`rows`属性。
 
 ```ruby
-= text_area_tag :bio
-# <textarea name="bio" class="input" id="bio" placeholder="Bio"></textarea>
+= text_area_tag :weibo
+# <textarea name="weibo" class="input" id="weibo" placeholder="Weibo"></textarea>
 
-= text_area_tag :bio, nil, rows: 5
-# <textarea name="bio" class="input" id="bio" rows="5" placeholder="Bio"></textarea>
+= text_area_tag :weibo, '#人艰不拆#', rows: 5, placeholder: nil
+# <textarea name="weibo" class="input" id="weibo" rows="5">#人艰不拆#</textarea>
 ```
 
 ---

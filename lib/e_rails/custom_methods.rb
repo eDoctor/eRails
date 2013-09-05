@@ -37,7 +37,7 @@ module ERails
       end
     end
 
-    # 处理当前页 URI 的参数并返回新的 URI
+    # 处理当前页面的 Query String
     def geturl(*args)
       options = args.extract_options!
       url, params = request.fullpath.split('?')
