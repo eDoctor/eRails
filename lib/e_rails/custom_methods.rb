@@ -39,7 +39,7 @@ module ERails
 
     # 处理当前页面的 Query String
     def geturl(*args)
-      options = args.extract_options!
+      operators = args.extract_options!
       url, params = request.fullpath.split('?')
       url = args.first unless args.empty?
 
@@ -51,30 +51,38 @@ module ERails
           .inject(:merge)
       end
 
-      # 保留参数(其余移除)
-      unless (keep_params = options[:keep_params]).blank?
-        keep_params.collect! { |x| x.to_s }
-        params.slice! *keep_params
+      # 保留项，其余移除
+      unless (keep_params = operators[:keep_params]).nil?
+        params.slice! *format_to_a(keep_params)
       end
 
-      # 移除参数
-      if (remove_params = options[:remove_params]).is_a? Array
-        params = if remove_params.empty? # 是空数组则移除全部
-          {}
+      # 移除项，其余保留
+      unless (remove_params = operators[:remove_params]).nil?
+        remove_params = *format_to_a(remove_params)
+
+        # 是空数组则移除全部
+        if remove_params.empty?
+          params.clear
         else
-          remove_params.collect! { |x| x.to_s }
-          params.except *remove_params
+          params.except! *remove_params
         end
       end
 
-      # 替换/新增参数
-      params.merge! (options[:edit_params] || {}).stringify_keys
+      # 新增或替换
+      params.merge! (operators[:edit_params] || {}).stringify_keys
 
-      [
-        url,
-        params.collect{ |k, v| k.to_s + '=' + v.to_s }.sort.join('&')
-      ].join('?')
+      # Serialize
+      params = params.collect{ |k, v| k.to_s + '=' + v.to_s }.sort.join('&')
+
+      return url if params.blank?
+      url << '?' << params
     end
+
+    private
+
+      def format_to_a(*args)
+        args.flatten.collect(&:to_s).uniq.select { |x| !x.blank? }
+      end
 
   end
 end
