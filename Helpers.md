@@ -93,11 +93,17 @@ javascript:
 ```ruby
 # 当前页面: /users?a=1&b=2&c=3
 
+= geturl keep_params: :a
+# /users?a=1
+
 = geturl keep_params: [:a, :c]
 # /users?a=1&c=3
 
 = geturl remove_params: [:a, :c]
 # /users?b=2
+
+= geturl remove_params: []
+# /users
 
 = geturl edit_params: { a: 10, b: 20, d: 30 }
 # /users?a=10&b=20&c=3&d=30
@@ -151,7 +157,7 @@ redirect_to root_path, info: 'Cooooool~~'
 
 ---
 
-> :point_down: 重写 Rails 官方提供的 Helpers：:point_down:
+> :point_down: 扩展 Rails 官方提供的 Helpers，包括`button`、`input`和`textarea`：:point_down:
 
 ---
 
@@ -185,12 +191,14 @@ redirect_to root_path, info: 'Cooooool~~'
 ```
 
 ## text_field_tag(name, [value], options = {})
-#### 和它的小伙伴们：`password_field_tag` `search_field_tag` `email_field_tag` `tel_field_tag` `url_field_tag` `hidden_field_tag`
+#### 和它的小伙伴们：`password_field_tag` `tel_field_tag` `date_field_tag` ...
+
+Refer to [HTML &lt;input&gt; type Attribute](http://www.w3schools.com/tags/att_input_type.asp)
 
 对比原版：:exclamation:
 
-1. `value`调整为可选参数。
-2. 固定`type`，不可更改。
+1. 添加了 Rails 4 中新增的类型。
+2. `value`调整为可选参数。
 3. 默认 className 为`input`，可追加其他 className。
 4. 默认把`name`属性的值解析成`placeholder`。
 5. `form_for`模式下去除了默认的`size`属性。
