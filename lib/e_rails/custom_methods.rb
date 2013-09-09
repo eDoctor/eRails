@@ -5,7 +5,7 @@ module ERails
     extend ActiveSupport::Concern
 
     included do
-      helper_method :date_time, :geturl
+      helper_method :date_time, :geturl, :to_compacted_a
     end
 
     # 格式化时间为自然语言
@@ -40,25 +40,42 @@ module ERails
     # 处理当前页面的 Query String
     def geturl(*args)
       operators = args.extract_options!
-      url, params = request.fullpath.split('?')
-      url = args.first unless args.empty?
+      path, *params = request.fullpath.split '?'
+      path = args.first unless args.empty?
 
-      params = if params.blank?
-        {}
+      if params.empty?
+        params = {}
       else
-        params.split('&').collect{ |x| x.split('=') }
-          .collect{ |x| { x[0].to_s => x[1].to_s } }
-          .inject(:merge)
+        # e.g. => /?xy[]=x&xy[]=y&xy&z=zzz=&back=/users?page=1
+
+        # => [["xy[]", "x"], ["xy[]", "y"], ["xy", ""], ["z", "zzz="], ["back", "/users?page=1"]]
+        params = params.join('?').split('&').map do |param|
+          i = param.index('=')
+          next [param, ''] if i.nil?
+          [param[0...i], param[i+1..-1]]
+        end
+
+        # => [["xy[]", "x"], ["xy[]", "y"]]
+        grouped_params = params.select { |param| param[0] =~ /.+\[\]$/ }
+
+        # => {"xy"=>"", "z"=>"zzz=", "back"=>"/users?page=1"}
+        params = (params - grouped_params).collect { |param| { param[0] => param[1] } }.inject(:merge)
+
+        # => {"xy"=>["", "x", "y"], "z"=>"zzz=", "back"=>"/users?page=1"}
+        grouped_params.each do |param|
+          k = param[0][0..-3]
+          params[k] = params[k].to_a << param[1]
+        end
       end
 
       # 保留项，其余移除
-      unless (keep_params = operators[:keep_params]).nil?
-        params.slice! *format_to_a(keep_params)
+      unless (keep_params = operators[:keep_params]).blank?
+        params.slice! *to_compacted_a(keep_params)
       end
 
       # 移除项，其余保留
       unless (remove_params = operators[:remove_params]).nil?
-        remove_params = *format_to_a(remove_params)
+        remove_params = to_compacted_a(remove_params)
 
         # 是空数组则移除全部
         if remove_params.empty?
@@ -69,20 +86,17 @@ module ERails
       end
 
       # 新增或替换
-      params.merge! (operators[:edit_params] || {}).stringify_keys
+      unless (edit_params = operators[:edit_params]).blank?
+        params.merge! edit_params.stringify_keys
+      end
 
-      # Serialize
-      params = params.collect{ |k, v| k.to_s + '=' + v.to_s }.sort.join('&')
-
-      return url if params.blank?
-      url << '?' << params
+      return path if params.blank?
+      path << '?' << params.to_query
     end
 
-    private
-
-      def format_to_a(*args)
-        args.flatten.collect(&:to_s).uniq.select { |x| !x.blank? }
-      end
+    def to_compacted_a(*args)
+      args.flatten.collect(&:to_s).uniq.select { |x| !x.blank? }
+    end
 
   end
 end
