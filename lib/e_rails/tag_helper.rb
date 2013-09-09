@@ -8,12 +8,12 @@ module ActionView; module Helpers
 
   module TagHelper
 
-    INPUT_TYPES = %w( text password search email tel url )
-
     # Overwrite https://github.com/rails/rails/blob/v3.2.14/actionpack/lib/action_view/helpers/tag_helper.rb#L65-L67
     def tag(name, options = nil, open = false, escape = true)
       # merge default className and placeholder
-      options = merge_defaults(options) if name.to_s == "input" && INPUT_TYPES.include?(options["type"])
+      if name.to_s == "input" && !%w( hidden file range checkbox radio ).include?(options["type"])
+        options = merge_defaults(options)
+      end
 
       "<#{name}#{tag_options(options, escape) if options}#{open ? ">" : " />"}".html_safe
     end
@@ -38,12 +38,16 @@ module ActionView; module Helpers
       end
 
       def merge_defaults(options, className = "input")
-        options = (options || {}).stringify_keys.reverse_merge(
-          "placeholder" => multi_capitalize(options["name"])
-        )
+        options = (options || {}).stringify_keys
+        options.reverse_merge! "placeholder" => multi_capitalize(options["name"])
 
         return options.except "class" if options.key?("class") && options["class"].nil?
-        options.merge "class" => ([] << className << options["class"]).flatten.compact.uniq
+
+        unless (klass = options["class"]).is_a? Array
+          klass = klass.to_s.split(' ')
+        end
+
+        options.merge "class" => (klass << className).flatten.compact.uniq
       end
 
   end
