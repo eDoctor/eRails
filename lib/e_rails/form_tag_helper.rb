@@ -4,10 +4,10 @@ module ActionView; module Helpers; module FormTagHelper
   # 减少参数个数
   def text_field_tag(*args)
     tag :input, args.extract_options!.stringify_keys.reverse_merge(
-      "name" => args.first,
-      "id" => sanitize_to_id(args.first),
-      "value" => args.second,
-      "type" => "text"
+      'name' => args.first,
+      'id' => sanitize_to_id(args.first),
+      'value' => args.second,
+      'type' => 'text'
     )
   end
 
@@ -15,9 +15,9 @@ module ActionView; module Helpers; module FormTagHelper
   %w( hidden file password email url tel search color date time datetime datetime-local month week number range ).each do |type|
     class_eval <<-RUBY_EVAL
       def #{type.underscore}_field_tag(*args)
-        options = args.extract_options!.stringify_keys.merge "type" => "#{type}"
-        if range = options.delete("in")
-          options.merge! "min" => range.min, "max" => range.max
+        options = args.extract_options!.stringify_keys.merge 'type' => #{type.inspect}
+        if range = options.delete('in')
+          options.merge! 'min' => range.min, 'max' => range.max
         end
         text_field_tag(*args << options)
       end
@@ -31,14 +31,14 @@ module ActionView; module Helpers; module FormTagHelper
     class_eval <<-RUBY_EVAL
       def #{type}_tag(*args, &block)
         options = args.extract_options!.stringify_keys.merge(
-          "type" => "#{type}",
-          "placeholder" => nil
+          'type' => #{type.inspect},
+          'placeholder' => nil
         )
-        options = merge_defaults(options, "btn")
+        options = merge_defaults(options, 'btn')
 
         return content_tag :button, options, &block if block_given?
 
-        val = args.empty? ? "#{type}" : args.first
+        val = args.empty? ? #{type.inspect} : args.first
         content_tag :button, t(val, scope: [:button_tag], default: val.capitalize), options
       end
     RUBY_EVAL
