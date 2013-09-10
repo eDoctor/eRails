@@ -91,7 +91,7 @@ module ERails
       end
 
       return path if params.blank?
-      path << '?' << params.to_query
+      path + '?' + params.to_query
     end
 
     def to_compacted_a(*args)
