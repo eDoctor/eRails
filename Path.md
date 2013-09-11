@@ -20,20 +20,23 @@ $icons: sprite-map(path('icons/*.png', true));
 ## Ruby: String.path
 
 ```ruby
-"ninja.png".path
+'ninja.png'.path
 # {{ assets_dir }}/ninja.png
 
-"/path/to/ninja.png".path
-# /path/to/ninja.png
+'/ninja.png'.path
+# /ninja.png
 
-"http://example.com/ninja.png".path
+'http://example.com/ninja.png'.path
 # http://example.com/ninja.png
+
+'ninja.png'.path(:exam)
+# {{ assets_dir }}/plugin-exam/ninja.png
 ```
 
 ```ruby
-= stylesheet_link_tag "ninja".path
+= stylesheet_link_tag 'ninja'.path
 # <link href="/assets/{{ assets_dir }}/ninja.css" rel="stylesheet" />
 
-= image_tag "ninja.png".path
+= image_tag 'ninja.png'.path
 # <img src="/assets/{{ assets_dir }}/ninja.png" />
 ```
