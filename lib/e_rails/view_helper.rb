@@ -34,7 +34,7 @@ module ERails
       end
 
       javascript_include_tag(
-        js_host() + seajs_dir + '??sea.js,' + plugins.join(',') + '?' + RELEASE_VERSION,
+        js_host + seajs_dir + '??sea.js,' + plugins.join(',') + '?' + RELEASE_VERSION,
         type: nil,
         id: 'seajsnode'
       ) + configs_tag
@@ -46,10 +46,10 @@ module ERails
 
     def noncmd_include_tag(*sources)
       sources.map do |source|
-        source = source + '.js' if File.extname(source).blank?
-        source = 'noncmd/' + source
-        source = js_host() + source unless onDev
-        javascript_include_tag(source, type: nil)
+        source << '.js' if File.extname(source).blank?
+        source.prepend 'noncmd/'
+        source.prepend js_host unless onDev
+        javascript_include_tag source, type: nil
       end.join('').html_safe
     end
 
@@ -58,17 +58,21 @@ module ERails
       [:success, :error, :warn, :info].each do |type|
         unless flash[type].blank?
           msg_tags = ''
-          ([] << flash[type]).flatten.compact.each do |msg|
-            msg_tags += content_tag(:p, t(msg, scope: [:flash, type], default: msg))
+          to_thin_a(flash[type]).each do |msg|
+            msg_tags << content_tag(:p, t(msg, scope: [:flash, type], default: msg))
           end
 
-          flash_tags += content_tag(:div, msg_tags.html_safe, class: "flash-#{type}")
+          flash_tags << content_tag(:div, msg_tags.html_safe, class: "flash-#{type}")
         end
       end
 
       options = options.extract_options!.stringify_keys
       options.reverse_merge! 'id' => 'j-flash'
-      options.merge! 'class' => ([] << 'flash-message' << options['class']).flatten.compact.uniq
+
+      unless (klass = options['class']).is_a? Array
+        klass = klass.to_s.split(' ')
+      end
+      options.merge! 'class' => to_thin_a('flash-message', klass)
 
       content_tag :div, flash_tags.html_safe, options
     end

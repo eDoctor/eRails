@@ -47,7 +47,7 @@ module ActionView; module Helpers
           klass = klass.to_s.split(' ')
         end
 
-        options.merge 'class' => (klass << className).flatten.compact.uniq
+        options.merge 'class' => to_thin_a(className, klass)
       end
 
   end
