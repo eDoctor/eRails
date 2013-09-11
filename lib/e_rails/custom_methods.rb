@@ -94,6 +94,7 @@ module ERails
       path + '?' + params.to_query
     end
 
+    # 把不同类型的元素去空、去重后组成一个一维数组
     def to_thin_a(*args)
       args.flatten.select { |arg| !arg.blank? }.collect(&:to_s).uniq
     end

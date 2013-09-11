@@ -115,9 +115,21 @@ javascript:
 # /groups?a=100
 ```
 
+## to_thin_a(*args)
+
+把不同类型的元素去空、去重后组成一个一维数组
+
+```ruby
+= to_thin_a({}, [], [[[]]], nil, false, '  ')
+# []
+
+= to_thin_a(:a, ['a'], 123, nil)
+# ['a', '123']
+```
+
 ---
 
-> :point_up: 以上 2 个 Helpers 可同时用于 Controller。:point_up:
+> :point_up: 以上 3 个 Helpers 可同时用于 Controller。:point_up:
 
 ---
 
