@@ -50,6 +50,10 @@ module ActionView; module Helpers
         options.merge 'class' => to_thin_a(className, klass)
       end
 
+      def to_thin_a(*args)
+        args.flatten.select { |arg| !arg.blank? }.collect(&:to_s).uniq
+      end
+
   end
 
 end; end
