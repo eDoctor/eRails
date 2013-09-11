@@ -38,7 +38,7 @@ module ActionView; module Helpers; module FormTagHelper
 
         return content_tag :button, options, &block if block_given?
 
-        val = args.empty? ? #{type.inspect} : args.first
+        val = args.blank? ? #{type.inspect} : args.first
         content_tag :button, t(val, scope: [:button_tag], default: val.capitalize), options
       end
     RUBY_EVAL
