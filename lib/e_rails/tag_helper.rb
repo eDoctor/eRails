@@ -41,7 +41,7 @@ module ActionView; module Helpers
         options = (options || {}).stringify_keys
         options.reverse_merge! 'placeholder' => multi_capitalize(options['name'])
 
-        return options.except 'class' if options.key?('class') && options['class'].nil?
+        return options.except 'class' if options.fetch('class', true).blank?
 
         unless (klass = options['class']).is_a? Array
           klass = klass.to_s.split(' ')
