@@ -58,7 +58,7 @@ module ERails
       [:success, :error, :warn, :info].each do |type|
         unless flash[type].blank?
           msg_tags = ''
-          to_thin_a(flash[type]).each do |msg|
+          to_compact_a(flash[type]).each do |msg|
             msg_tags << content_tag(:p, t(msg, scope: [:flash, type], default: msg))
           end
 
@@ -72,7 +72,7 @@ module ERails
       unless (klass = options['class']).is_a? Array
         klass = klass.to_s.split(' ')
       end
-      options.merge! 'class' => to_thin_a('flash-message', klass)
+      options.merge! 'class' => to_compact_a('flash-message', klass)
 
       content_tag :div, flash_tags.html_safe, options
     end

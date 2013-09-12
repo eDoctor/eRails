@@ -47,10 +47,10 @@ module ActionView; module Helpers
           klass = klass.to_s.split(' ')
         end
 
-        options.merge 'class' => to_thin_a(className, klass)
+        options.merge 'class' => to_compact_a(className, klass)
       end
 
-      def to_thin_a(*args)
+      def to_compact_a(*args)
         args.flatten.select { |arg| !arg.blank? }.collect(&:to_s).uniq
       end
 

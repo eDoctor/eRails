@@ -115,15 +115,15 @@ javascript:
 # /groups?a=100
 ```
 
-## to_thin_a(*args)
+## to_compact_a(*args)
 
 把不同类型的元素去空、去重后组成一个一维数组
 
 ```ruby
-= to_thin_a({}, [], [[[]]], nil, false, '  ')
+= to_compact_a({}, [], [[[]]], nil, false, '  ')
 # []
 
-= to_thin_a(:a, ['a'], 123, nil)
+= to_compact_a(:a, ['a'], 123, nil)
 # ['a', '123']
 ```
 

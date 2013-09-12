@@ -5,7 +5,7 @@ module ERails
     extend ActiveSupport::Concern
 
     included do
-      helper_method :date_time, :geturl, :to_thin_a
+      helper_method :date_time, :geturl, :to_compact_a
     end
 
     # 格式化时间为自然语言
@@ -70,12 +70,12 @@ module ERails
 
       # 保留项，其余移除
       unless (keep_params = operators[:keep_params]).blank?
-        params.slice! *to_thin_a(keep_params)
+        params.slice! *to_compact_a(keep_params)
       end
 
       # 移除项，其余保留
       unless (remove_params = operators[:remove_params]).nil?
-        remove_params = to_thin_a(remove_params)
+        remove_params = to_compact_a(remove_params)
 
         # 是空数组则移除全部
         if remove_params.empty?
@@ -95,7 +95,7 @@ module ERails
     end
 
     # 把不同类型的元素去空、去重后组成一个一维数组
-    def to_thin_a(*args)
+    def to_compact_a(*args)
       args.flatten.select { |arg| !arg.blank? }.collect(&:to_s).uniq
     end
 
