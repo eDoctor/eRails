@@ -10,9 +10,9 @@ module ActionView; module Helpers
 
     # Overwrite https://github.com/rails/rails/blob/v3.2.14/actionpack/lib/action_view/helpers/tag_helper.rb#L65-L67
     def tag(name, options = nil, open = false, escape = true)
-      # merge default className and placeholder
-      if name.to_s == 'input' && !%w( hidden file range checkbox radio ).include?(options['type'])
-        options = merge_defaults(options)
+      if name.to_s == 'input' &&
+        !%w( hidden file range checkbox radio ).include?((options || {}).stringify_keys['type'].to_s)
+          options = merge_defaults(options)
       end
 
       "<#{name}#{tag_options(options, escape) if options}#{open ? '>' : ' />'}".html_safe
@@ -24,19 +24,20 @@ module ActionView; module Helpers
         options = content_or_options_with_block if content_or_options_with_block.is_a?(Hash)
         content_tag_string(name, capture(&block), options, escape)
       else
-        # Merge default className and placeholder
         options = merge_defaults(options) if name.to_s == 'textarea'
-
         content_tag_string(name, content_or_options_with_block, options, escape)
       end
     end
 
     private
 
+      # user_name  => User Name
+      # user[name] => User Name
       def multi_capitalize(value)
         sanitize_to_id(value).split('_').map { |val| val.capitalize }.join(' ')
       end
 
+      # Add className and placeholder by default
       def merge_defaults(options, className = 'input')
         options = (options || {}).stringify_keys
         options.reverse_merge! 'placeholder' => multi_capitalize(options['name'])
@@ -50,6 +51,7 @@ module ActionView; module Helpers
         options.merge 'class' => to_compact_a(className, klass)
       end
 
+      # Remove blank and repeated items
       def to_compact_a(*args)
         args.flatten.select { |arg| !arg.blank? }.collect(&:to_s).uniq
       end
