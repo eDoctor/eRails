@@ -1,6 +1,6 @@
 module ERails
   class Engine < ::Rails::Engine
-    initializer 'erails_app' do |app|
+    initializer 'e_rails' do
       require 'e_rails/extends'
 
       ActiveSupport.on_load(:action_view) do

@@ -11,7 +11,7 @@ module ERails
       plugins = ([:log] | options).map { |plugin| 'seajs-' + plugin.to_s + '.js' }
       seajs_dir = "seajs/#{ JS_VERSION['seajs'] }/"
 
-      configs.deep_merge!(
+      configs = {
         'alias' => {
           '$' => "gallery/jquery/#{ JS_VERSION['jquery'] }/jquery",
           'seajs-debug' => seajs_dir + 'seajs-debug'
@@ -19,7 +19,7 @@ module ERails
         'vars' => {
           'locale' => I18n.locale
         }
-      )
+      }.deep_merge configs
       configs.merge! 'map' => configs['map'].to_a | [['.js', '.js?' + Time.now.to_i.to_s]] if onDev
 
       configs_tag = content_tag :script, 'seajs.config(' + configs.to_json + ')', { type: nil }, false
