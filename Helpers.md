@@ -91,13 +91,13 @@ javascript:
 3. `edit_params`: 新增或替换。
 
 ```ruby
-# 当前页面: /users?a[]=1&a[]=2&b=3&c=
+# 当前页面: /users?a[]=1&a[]=2&b=3&c
 
 = geturl keep_params: :a
 # /users?a[]=1&a[]=2
 
 = geturl keep_params: [:b, :c]
-# /users?b=3&c=
+# /users?b=3&c
 
 = geturl remove_params: [:a, :c]
 # /users?b=3
@@ -106,10 +106,10 @@ javascript:
 # /users
 
 = geturl edit_params: { a: [10, 20] }
-# /users?a[]=10&a[]=20&b=3&c=
+# /users?a[]=10&a[]=20&b=3&c
 
 = geturl '/groups'
-# /groups?a[]=1&a[]=2&b=3&c=
+# /groups?a[]=1&a[]=2&b=3&c
 
 = geturl '/groups', edit_params: { a: 100 }, remove_params: [:b, :c]
 # /groups?a=100

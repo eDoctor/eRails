@@ -39,46 +39,20 @@ module ERails
 
     # 处理当前页面的 Query String
     def geturl(*args)
-      operators = args.extract_options!
-      path, *params = request.fullpath.split '?'
-      path = args.first unless args.empty?
-
-      if params.empty?
-        params = {}
-      else
-        # e.g. => /?xy[]=x&xy[]=y&xy&z=zzz=&back=/users?page=1
-
-        # => [["xy[]", "x"], ["xy[]", "y"], ["xy", ""], ["z", "zzz="], ["back", "/users?page=1"]]
-        params = params.join('?').split('&').map do |param|
-          i = param.index('=')
-          next [param, ''] if i.nil?
-          [param[0...i], param[i+1..-1]]
-        end
-
-        # => [["xy[]", "x"], ["xy[]", "y"]]
-        grouped_params = params.select { |param| param[0] =~ /.+\[\]$/ }
-
-        # => {"xy"=>"", "z"=>"zzz=", "back"=>"/users?page=1"}
-        params = (params - grouped_params).collect { |param| { param[0] => param[1] } }.inject(:merge)
-
-        # => {"xy"=>["", "x", "y"], "z"=>"zzz=", "back"=>"/users?page=1"}
-        grouped_params.each do |param|
-          k = param[0][0..-3]
-          params[k] = params[k].to_a << param[1]
-        end
-      end
+      operators = args.extract_options!.stringify_keys
+      params = request.GET.dup
 
       # 保留项，其余移除
-      unless (keep_params = operators[:keep_params]).blank?
+      unless (keep_params = operators['keep_params']).blank?
         params.slice! *to_compact_a(keep_params)
       end
 
       # 移除项，其余保留
-      unless (remove_params = operators[:remove_params]).nil?
+      unless (remove_params = operators['remove_params']).nil?
         remove_params = to_compact_a(remove_params)
 
         # 是空数组则移除全部
-        if remove_params.empty?
+        if remove_params.blank?
           params.clear
         else
           params.except! *remove_params
@@ -86,12 +60,18 @@ module ERails
       end
 
       # 新增或替换
-      unless (edit_params = operators[:edit_params]).blank?
+      unless (edit_params = operators['edit_params']).blank?
         params.merge! edit_params.stringify_keys
       end
 
+      path = args[0] || request.path
       return path if params.blank?
-      path + '?' + params.to_query
+
+      no_value_params = params.select{ |k, v| v.nil? }.keys
+      return path + '?' + params.to_query if no_value_params.blank?
+
+      params.except! *no_value_params
+      path + '?' + to_compact_a(params.to_query, no_value_params) * '&'
     end
 
     # 把不同类型的元素去空、去重后组成一个一维数组
